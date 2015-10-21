@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet"
+	href="./bower_components/bootstrap-css-only/css/bootstrap.min.css" />
+</head>
+<body ng-app="myApp">
+	<div class="container" ng-controller="AppController">
+		<div class="page-header">
+			<h1>Trigital Api</h1>
+		</div>
+        
+			<div class="page-header">
+				<h3>Mac Details</h3>
+			</div>
+
+			<form class="form-horizontal">
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="content">Mac
+						Address :</label>
+					<div class="col-sm-10">
+						<input ng-model="macDetail.mac_Address" id="macAddress"
+							class="form-control" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="content">Ip
+						Address :</label>
+					<div class="col-sm-10">
+						<input ng-model="macDetail.ip_Address" id="ipAddress"
+							class="form-control" />
+					</div>
+				</div>              
+				<div class="form-group">
+					<div class="col-sm-10 col-sm-offset-2">
+						<button type="submit" class="btn btn-primary"
+							ng-click="getMacDetails()">
+							<span class="glyphicon glyphicon-ok"></span> Get MacDetails
+						</button>
+					</div>
+				</div>
+                
+                                <div class="form-group">
+					<table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                  <th class="info">Mac Address</th>
+                                  <th class="info">Ip Address</th>
+                                  <th class="info">I_F</th>
+                                  <th class="info">Mac State</th>
+                                  <th class="info">Prim SID</th>
+                                  <th class="info">Rxpwr</th>
+                                  <th class="info">Timing Offset</th>
+                                  <th class="info">Num CPE</th>
+                                  <th class="info">DIP</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                  <td class="info">{{macDetail.mac_Address}}</td>
+                                  <td class="info">{{macDetail.ip_Address}}</td>
+                                  <td class="info">{{macDetail.i_f}}</td>
+                                  <td class="info">{{macDetail.mac_state}}</td>
+                                  <td class="info">{{macDetail.prim_Sid}}</td>
+                                  <td class="info">{{macDetail.rxpwr}}</td>
+                                  <td class="info">{{macDetail.timing_Offset}}</td>
+                                  <td class="info">{{macDetail.num_CPE}}</td>
+                                  <td class="info">{{macDetail.dip}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+				</div>
+			</form>
+		</div>
+	</div>
+    <script src="./bower_components/angular/angular.js" type="text/javascript"></script>
+    <script src="./bower_components/angular-resource/angular-resource.js" type="text/javascript"></script>
+    <script src="./bower_components/angular-route/angular-route.js" type="text/javascript"></script>
+    <script type="text/javascript" src="./app/app.js"></script>
+    <script type="text/javascript" src="./app/controllers.js"></script>
+    <script type="text/javascript" src="./app/services.js"></script>
+</body>
+</html>
