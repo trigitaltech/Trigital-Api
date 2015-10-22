@@ -11,11 +11,29 @@ public class MACDetails {
 	private String timing_Offset;
 	private String num_CPE;
 	private String DIP;
+	private String cmts_make;
+	private String command;
 
 	public MACDetails() {
 
 	}
 
+	public MACDetails(String mac_Address, String ip_Address, String i_f,
+			String mac, String prim_RxPwr_Sid, String timing_Offset,
+			String num_CPE, String dIP, String rxpwr,String cmts_make,String command) {
+		this.mac_Address = mac_Address;
+		this.ip_Address = ip_Address;
+		this.i_f = i_f;
+		this.mac_state = mac;
+		this.prim_Sid = prim_RxPwr_Sid;
+		this.timing_Offset = timing_Offset;
+		this.num_CPE = num_CPE;
+		this.rxpwr = rxpwr;
+		this.DIP = dIP;
+		this.cmts_make=cmts_make;
+		this.command=command;
+	}
+	
 	public MACDetails(String mac_Address, String ip_Address, String i_f,
 			String mac, String prim_RxPwr_Sid, String timing_Offset,
 			String num_CPE, String dIP, String rxpwr) {
@@ -102,4 +120,22 @@ public class MACDetails {
 		DIP = dIP;
 	}
 
+	public String getCmts_make() {
+		return cmts_make;
+	}
+
+	public void setCmts_make(String cmts_make) {
+		this.cmts_make = cmts_make;
+	}
+
+	public String getCommand() {
+		return command;
+	}
+
+	public void setCommand(String command) {
+		this.command = command;
+	}
+	
+	
+	
 }

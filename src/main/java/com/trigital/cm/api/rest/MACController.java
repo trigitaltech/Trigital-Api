@@ -49,7 +49,7 @@ public class MACController extends AbstractRestHandler {
                                  HttpServletRequest request, HttpServletResponse response) {
     	System.out.println("Ip Address"+macDetails.getIp_Address());
     	System.out.println("Mac Address"+macDetails.getMac_Address());
-    	return this.success(this.macDetailsService.getMACDetails(macDetails.getIp_Address(), macDetails.getMac_Address()));
+    	return this.success(this.macDetailsService.getMACDetails(macDetails));
     }
 
     @RequestMapping(value = "",

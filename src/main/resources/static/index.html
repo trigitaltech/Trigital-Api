@@ -18,29 +18,43 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="content">Mac
 						Address :</label>
-					<div class="col-sm-10">
+					<div class="col-sm-4">
 						<input ng-model="macDetail.mac_Address" id="macAddress"
 							class="form-control" />
 					</div>
-				</div>
-				<div class="form-group">
+                    
 					<label class="control-label col-sm-2" for="content">Ip
 						Address :</label>
-					<div class="col-sm-10">
-						<input ng-model="macDetail.ip_Address" id="ipAddress"
-							class="form-control" />
+					<div class="col-sm-4">
+						<select ng-model="macDetail" ng-options="event.name for event in events" class="form-control">
+                                <option value="">Select Event</option>
+                        </select>
 					</div>
 				</div>              
 				<div class="form-group">
-					<div class="col-sm-10 col-sm-offset-2">
+					<div class="col-sm-2 col-sm-offset-1">
 						<button type="submit" class="btn btn-primary"
 							ng-click="getMacDetails()">
-							<span class="glyphicon glyphicon-ok"></span> Get MacDetails
+							<span class="glyphicon glyphicon-hand-up"></span> MacDetails
+						</button>
+					</div>
+                    <div class="col-sm-3 col-sm-offset-1">
+						<button type="submit" class="btn btn-danger"
+							ng-click="getMacDetails()">
+							<span class="glyphicon glyphicon-refresh"></span> Reset
+						</button>
+					</div>
+                    <div class="col-sm-2 col-sm-offset-1">
+						<button type="submit" class="btn btn-success"
+							ng-click="getMacDetails()">
+							<span class="glyphicon glyphicon-trash"></span> Clear
 						</button>
 					</div>
 				</div>
                 
-                                <div class="form-group">
+            
+                
+                <div class="form-group" >
 					<table class="table table-condensed">
                         <thead>
                             <tr>
@@ -53,6 +67,7 @@
                                   <th class="info">Timing Offset</th>
                                   <th class="info">Num CPE</th>
                                   <th class="info">DIP</th>
+                                  <th class="info">Make</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -66,10 +81,12 @@
                                   <td class="info">{{macDetail.timing_Offset}}</td>
                                   <td class="info">{{macDetail.num_CPE}}</td>
                                   <td class="info">{{macDetail.dip}}</td>
+                                  <td class="info">{{macDetail.cmts_make}}</td>
                             </tr>
                         </tbody>
                     </table>
 				</div>
+            
 			</form>
 		</div>
 	</div>
