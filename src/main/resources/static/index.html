@@ -26,7 +26,7 @@
 					<label class="control-label col-sm-2" for="content">Ip
 						Address :</label>
 					<div class="col-sm-4">
-						<select ng-model="macDetail" ng-options="event.name for event in events" class="form-control">
+						<select ng-model="macDetail.ipDetails" ng-options="event.name for event in events" class="form-control">
                                 <option value="">Select Event</option>
                         </select>
 					</div>
@@ -72,15 +72,15 @@
                         </thead>
                         <tbody>
                             <tr>
-                                  <td class="info">{{macDetail.mac_Address}}</td>
-                                  <td class="info">{{macDetail.ip_Address}}</td>
-                                  <td class="info">{{macDetail.i_f}}</td>
-                                  <td class="info">{{macDetail.mac_state}}</td>
-                                  <td class="info">{{macDetail.prim_Sid}}</td>
-                                  <td class="info">{{macDetail.rxpwr}}</td>
-                                  <td class="info">{{macDetail.timing_Offset}}</td>
-                                  <td class="info">{{macDetail.num_CPE}}</td>
-                                  <td class="info">{{macDetail.dip}}</td>
+                                  <td class="info">{{macDetail.defaultMACDetails.mac_Address}}</td>
+                                  <td class="info">{{macDetail.ipDetails.ip_Address}}</td>
+                                  <td class="info">{{macDetail.defaultMACDetails.i_f}}</td>
+                                  <td class="info">{{macDetail.defaultMACDetails.mac_state}}</td>
+                                  <td class="info">{{macDetail.defaultMACDetails.prim_Sid}}</td>
+                                  <td class="info">{{macDetail.defaultMACDetails.rxpwr}}</td>
+                                  <td class="info">{{macDetail.defaultMACDetails.timing_Offset}}</td>
+                                  <td class="info">{{macDetail.defaultMACDetails.num_CPE}}</td>
+                                  <td class="info">{{macDetail.defaultMACDetails.dip}}</td>
                                   <td class="info">{{macDetail.cmts_make}}</td>
                             </tr>
                         </tbody>
