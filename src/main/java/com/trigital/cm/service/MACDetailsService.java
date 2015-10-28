@@ -18,106 +18,200 @@ import com.trigital.cm.domain.WidebandMacDetails;
 
 @Service
 public class MACDetailsService {
-	
-	private static final Logger log = LoggerFactory.getLogger(MACDetailsService.class);
-	
+
+	private static final Logger log = LoggerFactory
+			.getLogger(MACDetailsService.class);
+
 	@Autowired
 	ExecuteShellComand esc;
-    
-    public MACDetailsService(){
-    	
-    }
-    
 
-    public MACDetails getMACDetails(MACDetails macDetails) {
-    	
-    	String executeCommandReset,executeCommandDefault,executeCommandCpe,executeCommandQos,executeCommandsWideband,
-    									executeCommandPhy,executeCommandCounters = null;
-    	
-    	//MACDetails resultReset = new MACDetails();
-    	DefaultMACDetails defaultMACDetails = null;
-    	CPEMacDetails cpeMacDetails = null;
-    	QOSMacDetails macDetailsQosA,macDetailsQosB = null;
-    	WidebandMacDetails widebandMacDetails  = null;
-    	PHYMacDetails phyMacDetails = null;
-    	CountersMacDetails countersMacDetails = null;
-    	
-    	List<QOSMacDetails> listOfQOSMacDetails = new ArrayList<QOSMacDetails>();
-    	
-    	String[] defaultCommandResults,cpeCommandResults,qosCommandResults,wideBandCommandResults,phyCommandResults,countersCommandResults = null;
-    	String[] qosStringData = null;
-    	
-    	if(macDetails.getCommand()=="RESET"){
-    		
-    		executeCommandReset = "clear cable modem "+macDetails.getMac_Address()+" reset";
-    		System.out.println(executeCommandReset);
-    		esc.shellCommandExecuter(executeCommandReset);
-    		
-    	}else {
-    		
-    		//Default Command
-    		executeCommandDefault = "rsh -l root "+macDetails.getIpDetails().getIp_Address()+" shcm "+macDetails.getMac_Address();
-    		System.out.println(executeCommandDefault);
-    		defaultCommandResults = esc.shellCommandExecuter(executeCommandDefault).split("\n")[3].split("\\s+");
-    		defaultMACDetails = new DefaultMACDetails(defaultCommandResults[0],defaultCommandResults[1],defaultCommandResults[2],
-    									defaultCommandResults[3],defaultCommandResults[4],defaultCommandResults[5],
-    									defaultCommandResults[6],defaultCommandResults[7],defaultCommandResults[8]);
-    		
-    		//CPE Command
-    		executeCommandCpe = "rsh -l root "+macDetails.getIpDetails().getIp_Address()+" shcm "+macDetails.getMac_Address()+" cpe";
-    		System.out.println(executeCommandCpe);    		
-    		cpeCommandResults = esc.shellCommandExecuter(executeCommandCpe).split("\n")[1].split("\\s+");
-    		cpeMacDetails = new CPEMacDetails(cpeCommandResults[0], cpeCommandResults[1], cpeCommandResults[2], cpeCommandResults[3]); 
-    		
-    		//QOS Command
-    		executeCommandQos = "rsh -l root "+macDetails.getIpDetails().getIp_Address()+" shcm "+macDetails.getMac_Address()+" qos";
-    		System.out.println(executeCommandQos);
-    		qosCommandResults = esc.shellCommandExecuter(executeCommandQos).split("\n");
+	String executeCommandReset, executeCommandDefault, executeCommandCpe,
+			executeCommandQos, executeCommandsWideband, executeCommandPhy,
+			executeCommandCounters = null;
 
-    		qosStringData = qosCommandResults[3].split("\\s+");
-    		
-    		for (String string : qosStringData) {
-				System.out.println("QOS "+string);
-			}
-    		macDetailsQosA = new QOSMacDetails(qosStringData[0], qosStringData[1], qosStringData[2], qosStringData[3],
-    				qosStringData[4], qosStringData[5], qosStringData[6], qosStringData[7], qosStringData[8], qosStringData[9]);
-    		listOfQOSMacDetails.add(macDetailsQosA);
-    		
-    		qosStringData = qosCommandResults[3].split("\\s+");
-    		macDetailsQosB = new QOSMacDetails(qosStringData[0], qosStringData[1], qosStringData[2], qosStringData[3],
-    				qosStringData[4], qosStringData[5], qosStringData[6], qosStringData[7], qosStringData[8], qosStringData[9]);
-    		listOfQOSMacDetails.add(macDetailsQosB);
-    		
-    		//Wideband Channel Command
-    		executeCommandsWideband = "rsh -l root "+macDetails.getIpDetails().getIp_Address()+" shcm "+macDetails.getMac_Address()+ " wideband channel";
-    		System.out.println(executeCommandsWideband);
-    		wideBandCommandResults = esc.shellCommandExecuter(executeCommandsWideband).split("\n")[2].split("\\s+");
-    		widebandMacDetails = new WidebandMacDetails(wideBandCommandResults[0], wideBandCommandResults[1],
-    										wideBandCommandResults[2], wideBandCommandResults[3], wideBandCommandResults[4], wideBandCommandResults[5]); 
-    		//Phy Command
-    		executeCommandPhy = "rsh -l root "+macDetails.getIpDetails().getIp_Address()+" shcm "+macDetails.getMac_Address()+ " phy";
-    		System.out.println(executeCommandPhy);
-    		phyCommandResults = esc.shellCommandExecuter(executeCommandPhy).split("\n")[3].split("\\s+");
-    		phyMacDetails = new PHYMacDetails(phyCommandResults[0], phyCommandResults[1], phyCommandResults[2], phyCommandResults[3],
-    				phyCommandResults[4], phyCommandResults[5], phyCommandResults[6],
-    				phyCommandResults[7], phyCommandResults[8], phyCommandResults[9]);
+	// MACDetails resultReset = new MACDetails();
+	DefaultMACDetails defaultMACDetails = null;
+	CPEMacDetails cpeMacDetails = null;
+	QOSMacDetails macDetailsQosA, macDetailsQosB = null;
+	WidebandMacDetails widebandMacDetails = null;
+	PHYMacDetails phyMacDetails = null;
+	CountersMacDetails countersMacDetails = null;
 
-    		//Counters Command
-    		executeCommandCounters = "rsh -l root "+macDetails.getIpDetails().getIp_Address()+" shcm "+macDetails.getMac_Address()+ " counters";
-    		System.out.println(executeCommandCounters);
-    		countersCommandResults = esc.shellCommandExecuter(executeCommandCounters).split("\n")[1].split("\\s+");
-    		countersMacDetails = new CountersMacDetails(countersCommandResults[0], countersCommandResults[1],
-    										countersCommandResults[2], countersCommandResults[3], countersCommandResults[4]);
-    		
-    		macDetails.setDefaultMACDetails(defaultMACDetails);
-    		macDetails.setCpeMacDetails(cpeMacDetails);
-    		macDetails.setPhyMacDetails(phyMacDetails);
-    		macDetails.setWidebandMacDetails(widebandMacDetails);
-    		macDetails.setListofQosMacDetails(listOfQOSMacDetails);
-    		macDetails.setCountersMacDetails(countersMacDetails);
-    		
+	List<QOSMacDetails> listOfQOSMacDetails = new ArrayList<QOSMacDetails>();
+
+	String[] defaultCommandResults, cpeCommandResults, qosCommandResults,
+			wideBandCommandResults, phyCommandResults,
+			countersCommandResults = null;
+	String[] qosStringData = null;
+
+	public MACDetailsService() {
+
+	}
+
+	public MACDetails getMACDetails(MACDetails macDetails) {
+
+		if (macDetails.getCommand() == "RESET" && macDetails.getCommand() == "") {
+
+			executeCommandReset = "clear cable modem "
+					+ macDetails.getMac_Address() + " reset";
+			System.out.println(executeCommandReset);
+			esc.shellCommandExecuter(executeCommandReset);
+
+		} else if (macDetails.getCommand() == "ALL"
+				&& macDetails.getCommand() == "") {
+
+			// Default Command
+			defaultMACDetails = this.executeDefaultMacDetails(macDetails.getIpDetails().getIp_Address(), macDetails.getMac_Address());
+
+			// CPE Command
+			cpeMacDetails = this.executeCPEMacDetails(macDetails.getIpDetails().getIp_Address(), macDetails.getMac_Address());
+			
+			// QOS Command
+			listOfQOSMacDetails = this.executeQOSMacDetails(macDetails.getIpDetails().getIp_Address(), macDetails.getMac_Address());
+
+			//Wideband Channel Command
+			widebandMacDetails = this.executeWidebandMacDetails(macDetails.getIpDetails().getIp_Address(), macDetails.getMac_Address());
+			
+			//Phy Command
+			phyMacDetails = this.executePHYMacDetails(macDetails.getIpDetails().getIp_Address(), macDetails.getMac_Address());
+			
+			//Counters Command
+			countersMacDetails = this.executeCountersMacDetails(macDetails.getIpDetails().getIp_Address(), macDetails.getMac_Address());
+			
+			macDetails.setDefaultMACDetails(defaultMACDetails);
+			macDetails.setCpeMacDetails(cpeMacDetails);
+			macDetails.setPhyMacDetails(phyMacDetails);
+			macDetails.setWidebandMacDetails(widebandMacDetails);
+			macDetails.setListofQosMacDetails(listOfQOSMacDetails);
+			macDetails.setCountersMacDetails(countersMacDetails);
+
 		}
-        return macDetails;
-    }
+		return macDetails;
+	}
+
+	// Default Command
+	public DefaultMACDetails executeDefaultMacDetails(String ipAddress,String macAddress) {
+
+		
+		executeCommandDefault = "rsh -l root " + ipAddress + " shcm "+ macAddress;
+
+		System.out.println(executeCommandDefault);
+
+		defaultCommandResults = esc.shellCommandExecuter(executeCommandDefault).split("\n")[3].split("\\s+");
+
+		defaultMACDetails = new DefaultMACDetails(defaultCommandResults[0],
+				defaultCommandResults[1], defaultCommandResults[2],
+				defaultCommandResults[3], defaultCommandResults[4],
+				defaultCommandResults[5], defaultCommandResults[6],
+				defaultCommandResults[7], defaultCommandResults[8]);
+
+		return defaultMACDetails;
+	}
+
+	// CPE Command
+	public CPEMacDetails executeCPEMacDetails(String ipAddress,String macAddress) {
+
+		
+		executeCommandCpe = "rsh -l root "+ ipAddress + " shcm "+ macAddress + " cpe";
+		
+		System.out.println(executeCommandCpe);
+		
+		cpeCommandResults = esc.shellCommandExecuter(executeCommandCpe).split("\n")[1].split("\\s+");
+		
+		cpeMacDetails = new CPEMacDetails(cpeCommandResults[0],
+				cpeCommandResults[1], cpeCommandResults[2],
+				cpeCommandResults[3]);
+
+		return cpeMacDetails;
+	}
+	
+	// QOS Command
+	public List<QOSMacDetails> executeQOSMacDetails(String ipAddress,String macAddress) {
+
+		
+					// QOS Command
+					executeCommandQos = "rsh -l root "+ ipAddress + " shcm "+ macAddress + " qos";
+					System.out.println(executeCommandQos);
+					qosCommandResults = esc.shellCommandExecuter(executeCommandQos)
+							.split("\n");
+
+					qosStringData = qosCommandResults[3].split("\\s+");
+
+					macDetailsQosA = new QOSMacDetails(qosStringData[0],
+							qosStringData[1], qosStringData[2], qosStringData[3],
+							qosStringData[4], qosStringData[5], qosStringData[6],
+							qosStringData[7], qosStringData[8], qosStringData[9]);
+					listOfQOSMacDetails.add(macDetailsQosA);
+
+					qosStringData = qosCommandResults[3].split("\\s+");
+					
+					macDetailsQosB = new QOSMacDetails(qosStringData[0],
+							qosStringData[1], qosStringData[2], qosStringData[3],
+							qosStringData[4], qosStringData[5], qosStringData[6],
+							qosStringData[7], qosStringData[8], qosStringData[9]);
+					listOfQOSMacDetails.add(macDetailsQosB);
+					
+			return listOfQOSMacDetails;
+	}
+	
+	//Wideband Channel Command
+	public WidebandMacDetails executeWidebandMacDetails(String ipAddress,String macAddress) {
+
+		
+					
+					executeCommandsWideband = "rsh -l root "
+							+ ipAddress + " shcm "
+							+ macAddress + " wideband channel";
+					
+					System.out.println(executeCommandsWideband);
+					
+					wideBandCommandResults = esc.shellCommandExecuter(
+							executeCommandsWideband).split("\n")[2].split("\\s+");
+					
+					widebandMacDetails = new WidebandMacDetails(
+							wideBandCommandResults[0], wideBandCommandResults[1],
+							wideBandCommandResults[2], wideBandCommandResults[3],
+							wideBandCommandResults[4], wideBandCommandResults[5]);
+					
+			return widebandMacDetails;
+	}
+	
+	//Phy Command
+	public PHYMacDetails executePHYMacDetails(String ipAddress,String macAddress) {
+
+					//Phy Command
+					executeCommandPhy = "rsh -l root "+ ipAddress + " shcm "+ macAddress + " phy";
+					
+					System.out.println(executeCommandPhy);
+					
+					phyCommandResults = esc.shellCommandExecuter(executeCommandPhy).split("\n")[3].split("\\s+");
+					
+					phyMacDetails = new PHYMacDetails(phyCommandResults[0],
+							phyCommandResults[1], phyCommandResults[2],
+							phyCommandResults[3], phyCommandResults[4],
+							phyCommandResults[5], phyCommandResults[6],
+							phyCommandResults[7], phyCommandResults[8],
+							phyCommandResults[9]);
+					
+			return phyMacDetails;
+	}
+	
+	//Counters Command
+	public CountersMacDetails executeCountersMacDetails(String ipAddress,String macAddress) {
+
+					// Counters Command
+					executeCommandCounters = "rsh -l root "+ ipAddress + " shcm "+ macAddress + " counters";
+					
+					System.out.println(executeCommandCounters);
+					
+					countersCommandResults = esc.shellCommandExecuter(executeCommandCounters).split("\n")[1].split("\\s+");
+					
+					countersMacDetails = new CountersMacDetails(
+							countersCommandResults[0], countersCommandResults[1],
+							countersCommandResults[2], countersCommandResults[3],
+							countersCommandResults[4]);
+					
+			return countersMacDetails;
+	}
 
 }

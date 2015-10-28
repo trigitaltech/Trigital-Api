@@ -28,14 +28,14 @@ public class ExecuteShellComand {
 		Process p;
 		try {
 			p = Runtime.getRuntime().exec(command);
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					p.getInputStream()));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
 
 			String line = "";
 			while ((line = reader.readLine()) != null) {
 				output.append(line+System.lineSeparator());				
 				
 			}
+			
 			p.destroy();
 
 		} catch (Exception e) {
@@ -45,5 +45,7 @@ public class ExecuteShellComand {
 		return output.toString();
 
 	}
+	
+	
 
 }
