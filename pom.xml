@@ -79,5 +79,16 @@
 			<artifactId>swagger-springmvc</artifactId>
 			<version>0.8.5</version>
 		</dependency>
+
+		<dependency>
+			<groupId>commons-net</groupId>
+			<artifactId>commons-net</artifactId>
+			<version>3.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.trigital.services</groupId>
+			<artifactId>jta20</artifactId>
+			<version>1.0</version>
+		</dependency>
 	</dependencies>
 </project>

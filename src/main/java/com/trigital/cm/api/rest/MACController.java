@@ -47,9 +47,11 @@ public class MACController extends AbstractRestHandler {
     @ResponseBody
     ResponseEntity createHotel(@RequestBody MACDetails macDetails,
                                  HttpServletRequest request, HttpServletResponse response) {
+    	
     	System.out.println("Ip Address "+macDetails.getIpDetails().getIp_Address());
     	System.out.println("Mac Address "+macDetails.getMac_Address());
     	System.out.println("Command "+macDetails.getCommand());
+    	System.out.println("Make "+macDetails.getIpDetails().getCmts_make());
     	return this.success(this.macDetailsService.getMACDetails(macDetails));
     }
 

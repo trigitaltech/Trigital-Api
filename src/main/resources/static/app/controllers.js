@@ -2,7 +2,7 @@
   var AppController = function($scope, Item) {
     $scope.events  = [
                         {name:'Kamla_cmts01',ip_Address:'125.99.127.30',cmts_make:'Cisco10K'},
-                        {name:'Kamla_cmts02',ip_Address:'125.99.127.31',cmts_make:'Cisco7K'}
+                        {name:'Kamla_cmts02',ip_Address:'125.99.127.31',cmts_make:'CASA'}
                      ];
     
 	$scope.macDetail = new Item();

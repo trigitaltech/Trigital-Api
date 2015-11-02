@@ -24,6 +24,9 @@ public class MACDetailsService {
 
 	@Autowired
 	ExecuteShellComand esc;
+	
+	@Autowired
+	TelnetCommandExecutor tce;
 
 	String executeCommandReset, executeCommandDefault, executeCommandCpe,
 			executeCommandQos, executeCommandsWideband, executeCommandPhy,
@@ -50,15 +53,16 @@ public class MACDetailsService {
 
 	public MACDetails getMACDetails(MACDetails macDetails) {
 
-		if (macDetails.getCommand() == "RESET" && macDetails.getCommand() == "") {
+		if (macDetails.getCommand() == "RESET") {
 
 			executeCommandReset = "clear cable modem "
 					+ macDetails.getMac_Address() + " reset";
 			System.out.println(executeCommandReset);
 			esc.shellCommandExecuter(executeCommandReset);
 
-		} else if (macDetails.getCommand() == "ALL"
-				&& macDetails.getCommand() == "") {
+		}
+		
+		if (macDetails.getCommand().equals("ALL") && macDetails.getIpDetails().getCmts_make().equals("Cisco10K")) {
 
 			// Default Command
 			defaultMACDetails = this.executeDefaultMacDetails(macDetails.getIpDetails().getIp_Address(), macDetails.getMac_Address());
@@ -85,6 +89,12 @@ public class MACDetailsService {
 			macDetails.setListofQosMacDetails(listOfQOSMacDetails);
 			macDetails.setCountersMacDetails(countersMacDetails);
 
+		}
+		
+		if (macDetails.getCommand().equals("ALL") && macDetails.getIpDetails().getCmts_make().equals("CASA")) {
+			System.out.println("Welcome to Telnet");
+			executeCommandDefault = "shcm "+macDetails.getMac_Address();		
+			tce.executeTelnetCommand(executeCommandDefault);
 		}
 		return macDetails;
 	}
