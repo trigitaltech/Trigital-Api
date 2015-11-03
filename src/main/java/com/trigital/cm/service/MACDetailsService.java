@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.trigital.cm.domain.CPEMacDetails;
+import com.trigital.cm.domain.CPETelnetMacDetails;
 import com.trigital.cm.domain.CountersMacDetails;
 import com.trigital.cm.domain.DefaultMACDetails;
+import com.trigital.cm.domain.DefaultTelnetMACDetails;
 import com.trigital.cm.domain.MACDetails;
 import com.trigital.cm.domain.PHYMacDetails;
 import com.trigital.cm.domain.QOSMacDetails;
