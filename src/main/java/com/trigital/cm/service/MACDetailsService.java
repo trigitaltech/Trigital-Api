@@ -32,7 +32,7 @@ public class MACDetailsService {
 			executeCommandQos, executeCommandsWideband, executeCommandPhy,
 			executeCommandCounters = null;
 
-	// MACDetails resultReset = new MACDetails();
+	// cisco10k
 	DefaultMACDetails defaultMACDetails = null;
 	CPEMacDetails cpeMacDetails = null;
 	QOSMacDetails macDetailsQosA, macDetailsQosB = null;
@@ -40,6 +40,14 @@ public class MACDetailsService {
 	PHYMacDetails phyMacDetails = null;
 	CountersMacDetails countersMacDetails = null;
 
+	//CASA
+	DefaultTelnetMACDetails defaultTelnetMACDetails = null;
+	CPETelnetMacDetails cpeTelnetMacDetails = null;
+	
+	
+	
+	
+	
 	List<QOSMacDetails> listOfQOSMacDetails = new ArrayList<QOSMacDetails>();
 
 	String[] defaultCommandResults, cpeCommandResults, qosCommandResults,
@@ -53,16 +61,14 @@ public class MACDetailsService {
 
 	public MACDetails getMACDetails(MACDetails macDetails) {
 
-		if (macDetails.getCommand() == "RESET") {
+		if (macDetails.getCommand().equals("RESET")  && macDetails.getIpDetails().getCmts_make().equals("Cisco10K")) {
 
 			executeCommandReset = "clear cable modem "
 					+ macDetails.getMac_Address() + " reset";
 			System.out.println(executeCommandReset);
 			esc.shellCommandExecuter(executeCommandReset);
 
-		}
-		
-		if (macDetails.getCommand().equals("ALL") && macDetails.getIpDetails().getCmts_make().equals("Cisco10K")) {
+		} else if (macDetails.getCommand().equals("ALL") && macDetails.getIpDetails().getCmts_make().equals("Cisco10K")) {
 
 			// Default Command
 			defaultMACDetails = this.executeDefaultMacDetails(macDetails.getIpDetails().getIp_Address(), macDetails.getMac_Address());
@@ -81,21 +87,20 @@ public class MACDetailsService {
 			
 			//Counters Command
 			countersMacDetails = this.executeCountersMacDetails(macDetails.getIpDetails().getIp_Address(), macDetails.getMac_Address());
-			
-			macDetails.setDefaultMACDetails(defaultMACDetails);
-			macDetails.setCpeMacDetails(cpeMacDetails);
-			macDetails.setPhyMacDetails(phyMacDetails);
-			macDetails.setWidebandMacDetails(widebandMacDetails);
-			macDetails.setListofQosMacDetails(listOfQOSMacDetails);
-			macDetails.setCountersMacDetails(countersMacDetails);
 
-		}
-		
-		if (macDetails.getCommand().equals("ALL") && macDetails.getIpDetails().getCmts_make().equals("CASA")) {
-			System.out.println("Welcome to Telnet");
-			executeCommandDefault = "shcm "+macDetails.getMac_Address();		
+		} else if (macDetails.getCommand().equals("ALL") && macDetails.getIpDetails().getCmts_make().equals("CASA")) {
+			
+			executeCommandDefault = "shcm ";
 			tce.executeTelnetCommand(executeCommandDefault);
 		}
+		
+		macDetails.setDefaultMACDetails(defaultMACDetails);
+		macDetails.setCpeMacDetails(cpeMacDetails);
+		macDetails.setPhyMacDetails(phyMacDetails);
+		macDetails.setWidebandMacDetails(widebandMacDetails);
+		macDetails.setListofQosMacDetails(listOfQOSMacDetails);
+		macDetails.setCountersMacDetails(countersMacDetails);
+		
 		return macDetails;
 	}
 
@@ -117,6 +122,22 @@ public class MACDetailsService {
 
 		return defaultMACDetails;
 	}
+	
+	// Default Telnet Command
+	public DefaultTelnetMACDetails executeTelnetDefaultMacDetails(String macAddress) {
+		
+		executeCommandDefault = "shcm "+ macAddress;
+		System.out.println(executeCommandDefault);
+
+		defaultCommandResults = tce.executeTelnetCommand(executeCommandDefault).split("\n")[2].split("\\s+");
+
+		defaultTelnetMACDetails = new DefaultTelnetMACDetails(defaultCommandResults[0], defaultCommandResults[1],
+				defaultCommandResults[3], defaultCommandResults[4], defaultCommandResults[5], defaultCommandResults[6],
+				defaultCommandResults[7], defaultCommandResults[8], defaultCommandResults[8], defaultCommandResults[9],
+				defaultCommandResults[10]);
+
+		return defaultTelnetMACDetails;
+	}
 
 	// CPE Command
 	public CPEMacDetails executeCPEMacDetails(String ipAddress,String macAddress) {
@@ -133,6 +154,21 @@ public class MACDetailsService {
 				cpeCommandResults[3]);
 
 		return cpeMacDetails;
+	}
+	
+	// CPE Command
+	public CPETelnetMacDetails executeTelnetCPEMacDetails(String macAddress) {
+
+		
+		executeCommandCpe = "shcm "+ macAddress + " cpe";
+		
+		System.out.println(executeCommandCpe);
+		
+		cpeCommandResults = tce.executeTelnetCommand(executeCommandCpe).split("\n")[1].split("\\s+");
+		
+		cpeTelnetMacDetails = new CPETelnetMacDetails(cpeCommandResults[0], cpeCommandResults[1], cpeCommandResults[2], cpeCommandResults[3], cpeCommandResults[4]);
+
+		return cpeTelnetMacDetails;
 	}
 	
 	// QOS Command
