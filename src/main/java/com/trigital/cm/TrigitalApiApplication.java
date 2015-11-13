@@ -20,6 +20,10 @@ public class TrigitalApiApplication extends SpringBootServletInitializer {
     
     public static void main(String[] args) {
         SpringApplication.run(TrigitalApiApplication.class, args);
+        log.error("Message logged at ERROR level");
+        log.warn("Message logged at WARN level");
+        log.info("Message logged at INFO level");
+        log.debug("Message logged at DEBUG level");
     }
     
     @Override
