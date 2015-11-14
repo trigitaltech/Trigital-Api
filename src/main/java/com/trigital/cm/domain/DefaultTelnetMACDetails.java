@@ -11,21 +11,16 @@ public class DefaultTelnetMACDetails {
 	private String rxpwr;
 	private String timing_Offset;
 	private String num_CPE;
-	private String DIP;
 	private String bpi_enb;
 	
 	public DefaultTelnetMACDetails() {
 
 	}
-	
-	
-	
-	
+
 	public DefaultTelnetMACDetails(String mac_Address, String ip_Address,
 			String us_intf, String ds_intf, String mac_status, String prim_Sid,
-			String rxpwr, String timing_Offset, String num_CPE, String dIP,
-			String bpi_enb) {
-		
+			String rxpwr, String timing_Offset, String num_CPE, String bpi_enb) {
+		super();
 		this.mac_Address = mac_Address;
 		this.ip_Address = ip_Address;
 		this.us_intf = us_intf;
@@ -35,12 +30,8 @@ public class DefaultTelnetMACDetails {
 		this.rxpwr = rxpwr;
 		this.timing_Offset = timing_Offset;
 		this.num_CPE = num_CPE;
-		this.DIP = dIP;
 		this.bpi_enb = bpi_enb;
 	}
-
-
-
 
 	public String getMac_Address() {
 		return mac_Address;
@@ -112,14 +103,6 @@ public class DefaultTelnetMACDetails {
 
 	public void setNum_CPE(String num_CPE) {
 		this.num_CPE = num_CPE;
-	}
-
-	public String getDIP() {
-		return DIP;
-	}
-
-	public void setDIP(String dIP) {
-		DIP = dIP;
 	}
 
 	public String getBpi_enb() {

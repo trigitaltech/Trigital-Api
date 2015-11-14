@@ -91,11 +91,22 @@ public class MACDetailsService {
 			
 			//Counters Command
 			countersMacDetails = this.executeCountersMacDetails(macDetails.getIpDetails().getIp_Address(), macDetails.getMac_Address());
+			
+			macDetails.setDefaultMACDetails(defaultMACDetails);
+			macDetails.setCpeMacDetails(cpeMacDetails);
+			macDetails.setPhyMacDetails(phyMacDetails);
+			macDetails.setWidebandMacDetails(widebandMacDetails);
+			macDetails.setListofQosMacDetails(listOfQOSMacDetails);
+			macDetails.setCountersMacDetails(countersMacDetails);
 
 		} else if (macDetails.getCommand().equals("ALL") && macDetails.getIpDetails().getCmts_make().equals("CASA")) {
 			
+			tce.connectTelnet();
+			
+			log.info("Execution of defaultTelnetMACDetails");
 			// Default Telnet Command
 			defaultTelnetMACDetails = this.executeTelnetDefaultMacDetails(macDetails.getMac_Address());
+			log.info("Completion of defaultTelnetMACDetails");
 			
 			//CPE Telnet Command
 			cpeTelnetMacDetails = this.executeTelnetCPEMacDetails(macDetails.getMac_Address());
@@ -106,17 +117,21 @@ public class MACDetailsService {
 			//PHY Telnet Command
 			phyTelnetMacDetails = this.executeTelnetPHYMacDetails(macDetails.getMac_Address());
 			
-			
+			//Counters Telnet Commands
 			countersTelnetMacDetails = this.executeTelnetCountersMacDetails(macDetails.getMac_Address());
+			
+			tce.disconnectTelnet();
+			
+			macDetails.setDefaultTelnetMACDetails(defaultTelnetMACDetails);
+			macDetails.setCpeTelnetMacDetails(cpeTelnetMacDetails);
+			macDetails.setPhyTelnetMacDetails(phyTelnetMacDetails);
+			//macDetails.setWidebandMacDetails(widebandMacDetails);
+			macDetails.setListofTelnetQosMacDetails(listOfQOSMacDetails);
+			macDetails.setCountersTelnetMacDetails(countersMacDetails);
 			
 		}
 		
-		macDetails.setDefaultMACDetails(defaultMACDetails);
-		macDetails.setCpeMacDetails(cpeMacDetails);
-		macDetails.setPhyMacDetails(phyMacDetails);
-		macDetails.setWidebandMacDetails(widebandMacDetails);
-		macDetails.setListofQosMacDetails(listOfQOSMacDetails);
-		macDetails.setCountersMacDetails(countersMacDetails);
+
 		
 		return macDetails;
 	}
@@ -146,12 +161,12 @@ public class MACDetailsService {
 		executeCommandDefault = "shcm "+ macAddress;
 		System.out.println(executeCommandDefault);
 
-		defaultCommandResults = tce.executeTelnetCommand(executeCommandDefault).split("\n")[2].split("\\s+");
+		
+		defaultCommandResults = tce.executeTelnetCommand(executeCommandDefault).split("\n")[3].split("\\s+");
 
-		defaultTelnetMACDetails = new DefaultTelnetMACDetails(defaultCommandResults[0], defaultCommandResults[1],
-				defaultCommandResults[3], defaultCommandResults[4], defaultCommandResults[5], defaultCommandResults[6],
-				defaultCommandResults[7], defaultCommandResults[8], defaultCommandResults[8], defaultCommandResults[9],
-				defaultCommandResults[10]);
+		defaultTelnetMACDetails = new DefaultTelnetMACDetails(defaultCommandResults[0], defaultCommandResults[1], defaultCommandResults[2],
+				defaultCommandResults[3], defaultCommandResults[4], defaultCommandResults[5], defaultCommandResults[6], defaultCommandResults[7],
+				defaultCommandResults[8], defaultCommandResults[9]);
 
 		return defaultTelnetMACDetails;
 	}
@@ -224,9 +239,16 @@ public class MACDetailsService {
 						// QOS Telnet Command
 						executeCommandQos = "shcm "+ macAddress + " qos";
 						System.out.println(executeCommandQos);
-						qosCommandResults = esc.shellCommandExecuter(executeCommandQos).split("\n");
+						qosCommandResults = tce.executeTelnetCommand(executeCommandQos).split("\n");
 
-						qosStringData = qosCommandResults[3].split("\\s+");
+						for (String string : qosCommandResults) {
+							
+							System.out.println("++++++++++"+string);
+						}
+						
+						System.out.println("Length of qosCommandResults"+qosCommandResults.length);
+						
+						qosStringData = qosCommandResults[4].split("\\s+");
 
 						macDetailsQosA = new QOSMacDetails(qosStringData[0],
 								qosStringData[1], qosStringData[2], qosStringData[3],
@@ -234,7 +256,7 @@ public class MACDetailsService {
 								qosStringData[7], qosStringData[8], qosStringData[9]);
 						listOfQOSMacDetails.add(macDetailsQosA);
 
-						qosStringData = qosCommandResults[4].split("\\s+");
+						qosStringData = qosCommandResults[5].split("\\s+");
 						
 						macDetailsQosB = new QOSMacDetails(qosStringData[0],
 								qosStringData[1], qosStringData[2], qosStringData[3],
@@ -296,7 +318,7 @@ public class MACDetailsService {
 						
 						System.out.println(executeCommandPhy);
 						
-						phyCommandResults = esc.shellCommandExecuter(executeCommandPhy).split("\n")[2].split("\\s+");
+						phyCommandResults = tce.executeTelnetCommand(executeCommandPhy).split("\n")[3].split("\\s+");
 						
 						phyTelnetMacDetails = new PHYTelnetMacDetails(phyCommandResults[0],phyCommandResults[1],phyCommandResults[2],
 											  phyCommandResults[3], phyCommandResults[4], phyCommandResults[5], phyCommandResults[6],
@@ -313,7 +335,7 @@ public class MACDetailsService {
 					
 					System.out.println(executeCommandCounters);
 					
-					countersCommandResults = esc.shellCommandExecuter(executeCommandCounters).split("\n")[1].split("\\s+");
+					countersCommandResults = tce.executeTelnetCommand(executeCommandCounters).split("\n")[2].split("\\s+");
 					
 					countersTelnetMacDetails = new CountersMacDetails(
 							countersCommandResults[0], countersCommandResults[1],
@@ -331,7 +353,7 @@ public class MACDetailsService {
 						
 						System.out.println(executeCommandCounters);
 						
-						countersCommandResults = esc.shellCommandExecuter(executeCommandCounters).split("\n")[1].split("\\s+");
+						countersCommandResults = tce.executeTelnetCommand(executeCommandCounters).split("\n")[2].split("\\s+");
 						
 						countersMacDetails = new CountersMacDetails(
 								countersCommandResults[0], countersCommandResults[1],

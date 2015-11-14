@@ -14,6 +14,13 @@ public class MACDetails {
 	private List<QOSMacDetails> listofQosMacDetails;
 	private WidebandMacDetails widebandMacDetails;
 	private CountersMacDetails countersMacDetails;
+	
+	private DefaultTelnetMACDetails defaultTelnetMACDetails;
+	private CPETelnetMacDetails cpeTelnetMacDetails;
+	private PHYTelnetMacDetails phyTelnetMacDetails;
+	private List<QOSMacDetails> listofTelnetQosMacDetails;
+	//private WidebandMacDetails widebandMacDetails;
+	private CountersMacDetails countersTelnetMacDetails;
 
 	public MACDetails() {
 
@@ -118,6 +125,61 @@ public class MACDetails {
 	public void setCountersMacDetails(CountersMacDetails countersMacDetails) {
 		this.countersMacDetails = countersMacDetails;
 	}
+
+
+	public DefaultTelnetMACDetails getDefaultTelnetMACDetails() {
+		return defaultTelnetMACDetails;
+	}
+
+
+	public void setDefaultTelnetMACDetails(
+			DefaultTelnetMACDetails defaultTelnetMACDetails) {
+		this.defaultTelnetMACDetails = defaultTelnetMACDetails;
+	}
+
+
+	public CPETelnetMacDetails getCpeTelnetMacDetails() {
+		return cpeTelnetMacDetails;
+	}
+
+
+	public void setCpeTelnetMacDetails(CPETelnetMacDetails cpeTelnetMacDetails) {
+		this.cpeTelnetMacDetails = cpeTelnetMacDetails;
+	}
+
+
+	public PHYTelnetMacDetails getPhyTelnetMacDetails() {
+		return phyTelnetMacDetails;
+	}
+
+
+	public void setPhyTelnetMacDetails(PHYTelnetMacDetails phyTelnetMacDetails) {
+		this.phyTelnetMacDetails = phyTelnetMacDetails;
+	}
+
+
+	public List<QOSMacDetails> getListofTelnetQosMacDetails() {
+		return listofTelnetQosMacDetails;
+	}
+
+
+	public void setListofTelnetQosMacDetails(
+			List<QOSMacDetails> listofTelnetQosMacDetails) {
+		this.listofTelnetQosMacDetails = listofTelnetQosMacDetails;
+	}
+
+
+	public CountersMacDetails getCountersTelnetMacDetails() {
+		return countersTelnetMacDetails;
+	}
+
+
+	public void setCountersTelnetMacDetails(
+			CountersMacDetails countersTelnetMacDetails) {
+		this.countersTelnetMacDetails = countersTelnetMacDetails;
+	}
+	
+	
 
 	
 }
