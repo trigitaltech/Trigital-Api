@@ -3,6 +3,7 @@ package com.trigital.cm.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.neo4j.cypher.internal.compiler.v2_1.ast.rewriters.flattenBooleanOperators;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,30 +68,37 @@ public class MACDetailsService {
 		log.info("I am in getMacDetails");
 		if (macDetails.getCommand().equals("RESET")  && macDetails.getIpDetails().getCmts_make().equals("Cisco10K")) {
 
-			executeCommandReset = "clear cable modem "
-					+ macDetails.getMac_Address() + " reset";
+			executeCommandReset = "clear cable modem "+ macDetails.getMac_Address() + " reset";
 			System.out.println(executeCommandReset);
 			esc.shellCommandExecuter(executeCommandReset);
 
 		} else if (macDetails.getCommand().equals("ALL") && macDetails.getIpDetails().getCmts_make().equals("Cisco10K")) {
 
-			// Default Command
-			defaultMACDetails = this.executeDefaultMacDetails(macDetails.getIpDetails().getIp_Address(), macDetails.getMac_Address());
+		
+				//Default Command
+				defaultMACDetails = this.executeDefaultMacDetails(macDetails.getIpDetails().getIp_Address(), macDetails.getMac_Address());
+				
+				if(!defaultMACDetails.isFlag()){
+					// CPE Command
+					cpeMacDetails = this.executeCPEMacDetails(macDetails.getIpDetails().getIp_Address(), macDetails.getMac_Address());
+					
+					// QOS Command
+					listOfQOSMacDetails = this.executeQOSMacDetails(macDetails.getIpDetails().getIp_Address(), macDetails.getMac_Address());
 
-			// CPE Command
-			cpeMacDetails = this.executeCPEMacDetails(macDetails.getIpDetails().getIp_Address(), macDetails.getMac_Address());
-			
-			// QOS Command
-			listOfQOSMacDetails = this.executeQOSMacDetails(macDetails.getIpDetails().getIp_Address(), macDetails.getMac_Address());
+					//Wideband Channel Command
+					widebandMacDetails = this.executeWidebandMacDetails(macDetails.getIpDetails().getIp_Address(), macDetails.getMac_Address());
+					
+					//Phy Command
+					phyMacDetails = this.executePHYMacDetails(macDetails.getIpDetails().getIp_Address(), macDetails.getMac_Address());
+					
+					//Counters Command
+					countersMacDetails = this.executeCountersMacDetails(macDetails.getIpDetails().getIp_Address(), macDetails.getMac_Address());
+				
+				}
+				
 
-			//Wideband Channel Command
-			widebandMacDetails = this.executeWidebandMacDetails(macDetails.getIpDetails().getIp_Address(), macDetails.getMac_Address());
 			
-			//Phy Command
-			phyMacDetails = this.executePHYMacDetails(macDetails.getIpDetails().getIp_Address(), macDetails.getMac_Address());
 			
-			//Counters Command
-			countersMacDetails = this.executeCountersMacDetails(macDetails.getIpDetails().getIp_Address(), macDetails.getMac_Address());
 			
 			macDetails.setDefaultMACDetails(defaultMACDetails);
 			macDetails.setCpeMacDetails(cpeMacDetails);
@@ -101,7 +109,7 @@ public class MACDetailsService {
 
 		} else if (macDetails.getCommand().equals("ALL") && macDetails.getIpDetails().getCmts_make().equals("CASA")) {
 			
-			tce.connectTelnet();
+			tce.connectTelnet(macDetails.getIpDetails().getIp_Address());
 			
 			log.info("Execution of defaultTelnetMACDetails");
 			// Default Telnet Command
@@ -139,18 +147,28 @@ public class MACDetailsService {
 	// Default Command
 	public DefaultMACDetails executeDefaultMacDetails(String ipAddress,String macAddress) {
 
+		try {
+			
+			executeCommandDefault = "rsh -l root " + ipAddress + " shcm "+ macAddress;
+
+			System.out.println(executeCommandDefault);
+
+			defaultCommandResults = esc.shellCommandExecuter(executeCommandDefault).split("\n")[3].split("\\s+");
+
+			defaultMACDetails = new DefaultMACDetails(defaultCommandResults[0],
+					defaultCommandResults[1], defaultCommandResults[2],
+					defaultCommandResults[3], defaultCommandResults[4],
+					defaultCommandResults[5], defaultCommandResults[6],
+					defaultCommandResults[7], defaultCommandResults[8]);
+			
+			defaultMACDetails.setFlag(true);
+			
+		} catch(Exception e){
+			
+			log.error("Could not execute Default MacDetails");
+			
+		}
 		
-		executeCommandDefault = "rsh -l root " + ipAddress + " shcm "+ macAddress;
-
-		System.out.println(executeCommandDefault);
-
-		defaultCommandResults = esc.shellCommandExecuter(executeCommandDefault).split("\n")[3].split("\\s+");
-
-		defaultMACDetails = new DefaultMACDetails(defaultCommandResults[0],
-				defaultCommandResults[1], defaultCommandResults[2],
-				defaultCommandResults[3], defaultCommandResults[4],
-				defaultCommandResults[5], defaultCommandResults[6],
-				defaultCommandResults[7], defaultCommandResults[8]);
 
 		return defaultMACDetails;
 	}

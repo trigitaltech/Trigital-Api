@@ -16,6 +16,7 @@ import com.jscape.inet.telnet.TelnetException;
 import com.jscape.inet.telnet.TelnetScript;
 import com.jscape.inet.telnet.TelnetSession;
 import com.jscape.inet.telnet.TelnetTask;
+import com.trigital.cm.exception.TelnetConnectionException;
 
 @Service
 public class TelnetCommandExecutor extends TelnetAdapter{
@@ -28,11 +29,11 @@ public class TelnetCommandExecutor extends TelnetAdapter{
     String passwordPrompt = "Antophill-CMTS password:";
     String password = "venkat@75";
     String shellPrompt = "Antophill-CMTS>";
-    String hostname = "125.99.88.90";
-    TelnetSession session = new TelnetSession(hostname);
+    TelnetSession session = null;
     
-    public void connectTelnet(){
+    public void connectTelnet(String hostName){
     	
+    	session = new TelnetSession(hostName);
     	session.setShellPrompt(shellPrompt);
 		session.setLoginPrompt(loginPrompt);
 		session.setPasswordPrompt(passwordPrompt);
@@ -40,8 +41,10 @@ public class TelnetCommandExecutor extends TelnetAdapter{
 		try {
 			session.connect(login,password);
 		} catch (TelnetException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
+			log.error("Cannot connect to Telnet Server");
+			throw new TelnetConnectionException("Cannot connect to Telnet Server");
 		}
 		System.out.println("successfully connected to telnet server");
     }

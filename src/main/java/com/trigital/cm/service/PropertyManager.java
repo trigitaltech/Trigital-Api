@@ -24,7 +24,7 @@ public class PropertyManager {
     }
  
     private void loadProps() throws IOException{
-    	fis = new FileInputStream("D://Properties.ini");
+    	fis = new FileInputStream("/home/expan/Properties.ini");
         props.load (fis); 
     }
  

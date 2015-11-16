@@ -89,5 +89,15 @@
 			<artifactId>shhfactory</artifactId>
 			<version>1.0</version>
 		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.1.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.neo4j</groupId>
+			<artifactId>neo4j-cypher-compiler-2.1</artifactId>
+			<version>2.1.5</version>
+		</dependency>
 	</dependencies>
 </project>

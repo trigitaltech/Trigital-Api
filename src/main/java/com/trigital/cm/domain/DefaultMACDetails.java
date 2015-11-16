@@ -13,6 +13,7 @@ public class DefaultMACDetails {
 	private String DIP;
 	private String cmts_make;
 	private String command;
+	private boolean flag = false;
 
 	public DefaultMACDetails() {
 
@@ -134,6 +135,14 @@ public class DefaultMACDetails {
 
 	public void setCommand(String command) {
 		this.command = command;
+	}
+
+	public boolean isFlag() {
+		return flag;
+	}
+
+	public void setFlag(boolean flag) {
+		this.flag = flag;
 	}
 	
 	
