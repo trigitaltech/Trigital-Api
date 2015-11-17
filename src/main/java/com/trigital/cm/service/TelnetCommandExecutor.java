@@ -31,7 +31,10 @@ public class TelnetCommandExecutor extends TelnetAdapter{
     String shellPrompt = "Antophill-CMTS>";
     TelnetSession session = null;
     
+    
     public void connectTelnet(String hostName){
+    	
+    	log.info("connecting to telnetserver "+hostName);
     	
     	session = new TelnetSession(hostName);
     	session.setShellPrompt(shellPrompt);
@@ -47,6 +50,8 @@ public class TelnetCommandExecutor extends TelnetAdapter{
 			throw new TelnetConnectionException("Cannot connect to Telnet Server");
 		}
 		System.out.println("successfully connected to telnet server");
+		
+		log.info("connected to telnetserver "+hostName);
     }
 	
 	public String executeTelnetCommand(String executeCommand) {
@@ -56,11 +61,8 @@ public class TelnetCommandExecutor extends TelnetAdapter{
         
 		try {
 			
-			
-			
 			result = session.send(executeCommand);
 			System.out.println("successfully executed the show cable modem command");
-			
 			System.out.println(result);
 
 			

@@ -75,10 +75,11 @@ public class MACDetailsService {
 		} else if (macDetails.getCommand().equals("ALL") && macDetails.getIpDetails().getCmts_make().equals("Cisco10K")) {
 
 		
-				//Default Command
-				defaultMACDetails = this.executeDefaultMacDetails(macDetails.getIpDetails().getIp_Address(), macDetails.getMac_Address());
+					//Default Command
+					defaultMACDetails = this.executeDefaultMacDetails(macDetails.getIpDetails().getIp_Address(), macDetails.getMac_Address());
 				
-				if(!defaultMACDetails.isFlag()){
+				
+					
 					// CPE Command
 					cpeMacDetails = this.executeCPEMacDetails(macDetails.getIpDetails().getIp_Address(), macDetails.getMac_Address());
 					
@@ -94,10 +95,6 @@ public class MACDetailsService {
 					//Counters Command
 					countersMacDetails = this.executeCountersMacDetails(macDetails.getIpDetails().getIp_Address(), macDetails.getMac_Address());
 				
-				}
-				
-
-			
 			
 			
 			macDetails.setDefaultMACDetails(defaultMACDetails);
@@ -167,6 +164,26 @@ public class MACDetailsService {
 			
 			log.error("Could not execute Default MacDetails");
 			
+			if(!defaultMACDetails.isFlag()){
+				
+				// CPE Command
+				cpeMacDetails = this.executeCPEMacDetails(ipAddress,macAddress);
+				
+				// QOS Command
+				listOfQOSMacDetails = this.executeQOSMacDetails(ipAddress,macAddress);
+
+				//Wideband Channel Command
+				widebandMacDetails = this.executeWidebandMacDetails(ipAddress,macAddress);
+				
+				//Phy Command
+				phyMacDetails = this.executePHYMacDetails(ipAddress,macAddress);
+				
+				//Counters Command
+				countersMacDetails = this.executeCountersMacDetails(ipAddress,macAddress);
+			
+			}
+			
+			
 		}
 		
 
@@ -192,16 +209,33 @@ public class MACDetailsService {
 	// CPE Command
 	public CPEMacDetails executeCPEMacDetails(String ipAddress,String macAddress) {
 
+		try {
+			
+			executeCommandCpe = "rsh -l root "+ ipAddress + " shcm "+ macAddress + " cpe";
+			System.out.println(executeCommandCpe);
+			cpeCommandResults = esc.shellCommandExecuter(executeCommandCpe).split("\n")[1].split("\\s+");
+			cpeMacDetails = new CPEMacDetails(cpeCommandResults[0],cpeCommandResults[1], cpeCommandResults[2],cpeCommandResults[3]);
+			
+		} catch (Exception e) {
+
+				log.error("Could not execute CPEMacDetails");
+				
+				// QOS Command
+				listOfQOSMacDetails = this.executeQOSMacDetails(ipAddress,macAddress);
+
+				//Wideband Channel Command
+				widebandMacDetails = this.executeWidebandMacDetails(ipAddress,macAddress);
+				
+				//Phy Command
+				phyMacDetails = this.executePHYMacDetails(ipAddress,macAddress);
+				
+				//Counters Command
+				countersMacDetails = this.executeCountersMacDetails(ipAddress,macAddress);
+			
+			
+
+		}
 		
-		executeCommandCpe = "rsh -l root "+ ipAddress + " shcm "+ macAddress + " cpe";
-		
-		System.out.println(executeCommandCpe);
-		
-		cpeCommandResults = esc.shellCommandExecuter(executeCommandCpe).split("\n")[1].split("\\s+");
-		
-		cpeMacDetails = new CPEMacDetails(cpeCommandResults[0],
-				cpeCommandResults[1], cpeCommandResults[2],
-				cpeCommandResults[3]);
 
 		return cpeMacDetails;
 	}
@@ -224,28 +258,42 @@ public class MACDetailsService {
 	// QOS Command
 	public List<QOSMacDetails> executeQOSMacDetails(String ipAddress,String macAddress) {
 
+					try {
+						
+						// QOS Command
+						executeCommandQos = "rsh -l root "+ ipAddress + " shcm "+ macAddress + " qos";
+						System.out.println(executeCommandQos);
+						qosCommandResults = esc.shellCommandExecuter(executeCommandQos).split("\n");
+
+						qosStringData = qosCommandResults[3].split("\\s+");
+
+						macDetailsQosA = new QOSMacDetails(qosStringData[0],
+								qosStringData[1], qosStringData[2], qosStringData[3],
+								qosStringData[4], qosStringData[5], qosStringData[6],
+								qosStringData[7], qosStringData[8], qosStringData[9]);
+						listOfQOSMacDetails.add(macDetailsQosA);
+
+						qosStringData = qosCommandResults[4].split("\\s+");
+						
+						macDetailsQosB = new QOSMacDetails(qosStringData[0],
+								qosStringData[1], qosStringData[2], qosStringData[3],
+								qosStringData[4], qosStringData[5], qosStringData[6],
+								qosStringData[7], qosStringData[8], qosStringData[9]);
+						listOfQOSMacDetails.add(macDetailsQosB);
+						
+					} catch (Exception e) {
+						
+						//Wideband Channel Command
+						widebandMacDetails = this.executeWidebandMacDetails(ipAddress,macAddress);
+						
+						//Phy Command
+						phyMacDetails = this.executePHYMacDetails(ipAddress,macAddress);
+						
+						//Counters Command
+						countersMacDetails = this.executeCountersMacDetails(ipAddress,macAddress);
+					}
 		
-					// QOS Command
-					executeCommandQos = "rsh -l root "+ ipAddress + " shcm "+ macAddress + " qos";
-					System.out.println(executeCommandQos);
-					qosCommandResults = esc.shellCommandExecuter(executeCommandQos)
-							.split("\n");
-
-					qosStringData = qosCommandResults[3].split("\\s+");
-
-					macDetailsQosA = new QOSMacDetails(qosStringData[0],
-							qosStringData[1], qosStringData[2], qosStringData[3],
-							qosStringData[4], qosStringData[5], qosStringData[6],
-							qosStringData[7], qosStringData[8], qosStringData[9]);
-					listOfQOSMacDetails.add(macDetailsQosA);
-
-					qosStringData = qosCommandResults[4].split("\\s+");
 					
-					macDetailsQosB = new QOSMacDetails(qosStringData[0],
-							qosStringData[1], qosStringData[2], qosStringData[3],
-							qosStringData[4], qosStringData[5], qosStringData[6],
-							qosStringData[7], qosStringData[8], qosStringData[9]);
-					listOfQOSMacDetails.add(macDetailsQosB);
 					
 			return listOfQOSMacDetails;
 	}
@@ -289,21 +337,33 @@ public class MACDetailsService {
 	//Wideband Channel Command
 	public WidebandMacDetails executeWidebandMacDetails(String ipAddress,String macAddress) {
 
-		
+		try {
+			
+			executeCommandsWideband = "rsh -l root "
+					+ ipAddress + " shcm "
+					+ macAddress + " wideband channel";
+			
+			System.out.println(executeCommandsWideband);
+			
+			wideBandCommandResults = esc.shellCommandExecuter(
+					executeCommandsWideband).split("\n")[2].split("\\s+");
+			
+			widebandMacDetails = new WidebandMacDetails(
+					wideBandCommandResults[0], wideBandCommandResults[1],
+					wideBandCommandResults[2], wideBandCommandResults[3],
+					wideBandCommandResults[4], wideBandCommandResults[5]);
+			
+		} catch (Exception e) {
+			
+			//Phy Command
+			phyMacDetails = this.executePHYMacDetails(ipAddress,macAddress);
+			
+			//Counters Command
+			countersMacDetails = this.executeCountersMacDetails(ipAddress,macAddress);
+			
+		}
 					
-					executeCommandsWideband = "rsh -l root "
-							+ ipAddress + " shcm "
-							+ macAddress + " wideband channel";
 					
-					System.out.println(executeCommandsWideband);
-					
-					wideBandCommandResults = esc.shellCommandExecuter(
-							executeCommandsWideband).split("\n")[2].split("\\s+");
-					
-					widebandMacDetails = new WidebandMacDetails(
-							wideBandCommandResults[0], wideBandCommandResults[1],
-							wideBandCommandResults[2], wideBandCommandResults[3],
-							wideBandCommandResults[4], wideBandCommandResults[5]);
 					
 			return widebandMacDetails;
 	}
@@ -311,19 +371,30 @@ public class MACDetailsService {
 	//Phy Command
 	public PHYMacDetails executePHYMacDetails(String ipAddress,String macAddress) {
 
-					//Phy Command
-					executeCommandPhy = "rsh -l root "+ ipAddress + " shcm "+ macAddress + " phy";
+					try {
+						
+						//Phy Command
+						executeCommandPhy = "rsh -l root "+ ipAddress + " shcm "+ macAddress + " phy";
+						
+						System.out.println(executeCommandPhy);
+						
+						phyCommandResults = esc.shellCommandExecuter(executeCommandPhy).split("\n")[3].split("\\s+");
+						
+						phyMacDetails = new PHYMacDetails(phyCommandResults[0],
+								phyCommandResults[1], phyCommandResults[2],
+								phyCommandResults[3], phyCommandResults[4],
+								phyCommandResults[5], phyCommandResults[6],
+								phyCommandResults[7], phyCommandResults[8],
+								phyCommandResults[9]);
+						
+					} catch (Exception e) {
+						
+						//Counters Command
+						countersMacDetails = this.executeCountersMacDetails(ipAddress,macAddress);
+						
+					}
+		
 					
-					System.out.println(executeCommandPhy);
-					
-					phyCommandResults = esc.shellCommandExecuter(executeCommandPhy).split("\n")[3].split("\\s+");
-					
-					phyMacDetails = new PHYMacDetails(phyCommandResults[0],
-							phyCommandResults[1], phyCommandResults[2],
-							phyCommandResults[3], phyCommandResults[4],
-							phyCommandResults[5], phyCommandResults[6],
-							phyCommandResults[7], phyCommandResults[8],
-							phyCommandResults[9]);
 					
 			return phyMacDetails;
 	}
@@ -348,17 +419,24 @@ public class MACDetailsService {
 	//Counters Command
 	public CountersMacDetails executeCountersMacDetails(String ipAddress,String macAddress) {
 
-					// Counters Command
-					executeCommandCounters = "rsh -l root "+ ipAddress + " shcm "+ macAddress + " counters";
-					
-					System.out.println(executeCommandCounters);
-					
-					countersCommandResults = tce.executeTelnetCommand(executeCommandCounters).split("\n")[2].split("\\s+");
-					
-					countersTelnetMacDetails = new CountersMacDetails(
-							countersCommandResults[0], countersCommandResults[1],
-							countersCommandResults[2], countersCommandResults[3],
-							countersCommandResults[4]);
+					try {
+						
+						// Counters Command
+						executeCommandCounters = "rsh -l root "+ ipAddress + " shcm "+ macAddress + " counters";
+						
+						System.out.println(executeCommandCounters);
+						
+						countersCommandResults = esc.shellCommandExecuter(executeCommandCounters).split("\n")[1].split("\\s+");
+						
+						countersTelnetMacDetails = new CountersMacDetails(
+								countersCommandResults[0], countersCommandResults[1],
+								countersCommandResults[2], countersCommandResults[3],
+								countersCommandResults[4]);
+						
+					} catch (Exception e) {
+						
+						countersTelnetMacDetails = null;
+					}
 					
 			return countersTelnetMacDetails;
 	}
