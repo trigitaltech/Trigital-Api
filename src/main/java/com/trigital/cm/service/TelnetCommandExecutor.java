@@ -34,7 +34,7 @@ public class TelnetCommandExecutor extends TelnetAdapter{
     
     public void connectTelnet(String hostName){
     	
-    	log.info("connecting to telnetserver "+hostName);
+    	log.info("connecting to telnetserver "+ hostName);
     	
     	session = new TelnetSession(hostName);
     	session.setShellPrompt(shellPrompt);

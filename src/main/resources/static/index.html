@@ -54,7 +54,7 @@
                 
             
                 
-                <div class="form-group" >
+                <!--  div class="form-group" >
 					<table class="table table-condensed">
                         <thead>
                             <tr>
@@ -84,6 +84,115 @@
                                   <td class="info">{{macDetail.cmts_make}}</td>
                             </tr>
                         </tbody>
+                    </table>
+				</div-->
+				
+				 <div class="form-group" >
+					<table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                  <th class="info"></th>
+                                  <th class="info">Mac Address</th>
+                                  <th class="info"></th>
+								  
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                  <td class="info" rowspan="12">Default MacDetails</td>
+                                  <td class="info">Mac Address</td>
+                                  <td class="info">{{macDetail.defaultMACDetails.mac_Address}}</td>
+                            </tr>
+                           <tr>
+                           		 <td class="info">IP Address</td>
+                                  <td class="info">{{macDetail.defaultMACDetails.ip_Address}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">IF</td>
+                                  <td class="info">{{macDetail.defaultMACDetails.i_f}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Mac State</td>
+                                  <td class="info">{{macDetail.defaultMACDetails.mac_state}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">PRIM_SID</td>
+                                  <td class="info">{{macDetail.defaultMACDetails.prim_Sid}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">RXPWR</td>
+                                  <td class="info">{{macDetail.defaultMACDetails.rxpwr}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Timing Offset</td>
+                                  <td class="info">{{macDetail.defaultMACDetails.timing_Offset}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Num_CPE</td>
+                                  <td class="info">{{macDetail.defaultMACDetails.num_CPE}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">CMTS Make</td>
+                                  <td class="info">{{macDetail.defaultMACDetails.cmts_make}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Command</td>
+                                  <td class="info">{{macDetail.defaultMACDetails.command}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Flag</td>
+                                  <td class="info">{{macDetail.defaultMACDetails.flag}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Dip</td>
+                                  <td class="info">{{macDetail.defaultMACDetails.dip}}</td>
+                            </tr>
+                        </tbody>
+                        
+                        <tbody>
+                            <tr>
+                                  <td class="info" rowspan="4">PHY MacDetails</td>
+                                  <td class="info">PHY Mac Address</td>
+                                  <td class="info">{{macDetail.phyMacDetails.mac_Address}}</td>
+                            </tr>
+                           <tr>
+                           		 <td class="info">SID</td>
+                                  <td class="info">{{macDetail.phyMacDetails.sid}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">USPWR</td>
+                                  <td class="info">{{macDetail.phyMacDetails.uspwr}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">URMER</td>
+                                  <td class="info">{{macDetail.phyMacDetails.usmer}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Timing offset</td>
+                                  <td class="info">{{macDetail.phyMacDetails.timing_offset}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">DSPWR</td>
+                                  <td class="info">{{macDetail.phyMacDetails.dspwr}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">DSMER</td>
+                                  <td class="info">{{macDetail.phyMacDetails.dsmer}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Mode</td>
+                                  <td class="info">{{macDetail.phyMacDetails.mode}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Docsis</td>
+                                  <td class="info">{{macDetail.phyMacDetails.docsis}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">IF</td>
+                                  <td class="info">{{macDetail.phyMacDetails.i_F}}</td>
+                            </tr>
+                        </tbody>
+                        
                     </table>
 				</div>
             
