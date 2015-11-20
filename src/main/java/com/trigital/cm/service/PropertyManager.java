@@ -4,6 +4,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class PropertyManager {
     Properties props = new Properties ();
     FileInputStream fis;
@@ -24,7 +27,7 @@ public class PropertyManager {
     }
  
     private void loadProps() throws IOException{
-    	fis = new FileInputStream("/home/expan/Properties.ini");
+    	fis = new FileInputStream("D:\\Properties.ini");
         props.load (fis); 
     }
  
