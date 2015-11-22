@@ -3,13 +3,11 @@ package com.trigital.cm.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.neo4j.cypher.internal.compiler.v2_1.ast.rewriters.flattenBooleanOperators;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.trigital.cm.TrigitalApiApplication;
 import com.trigital.cm.domain.CPEMacDetails;
 import com.trigital.cm.domain.CPETelnetMacDetails;
 import com.trigital.cm.domain.CountersMacDetails;
@@ -458,5 +456,6 @@ public class MACDetailsService {
 						
 				return countersMacDetails;
 		}
+		
 
 }

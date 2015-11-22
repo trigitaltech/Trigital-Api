@@ -6,7 +6,7 @@
                      ];
       
     $scope.cmtsips = Item.query(function() {
-        alert('Get is being call First')
+        
     });
       
     $scope.tableShow = false;

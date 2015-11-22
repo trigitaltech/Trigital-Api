@@ -25,6 +25,7 @@ import com.trigital.cm.exception.DataFormatException;
 import com.trigital.cm.service.MACDetailsService;
 import com.trigital.cm.service.PropertyManager;
 import com.trigital.cm.service.TelnetCommandExecutor;
+import com.trigital.cm.service.XMLFileReader;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
@@ -35,7 +36,7 @@ import com.wordnik.swagger.annotations.ApiParam;
 
 @RestController
 @RequestMapping(value = "/cablemodem")
-@Api(value = "hotels", description = "Hotel API")
+@Api(value = "Cable Modems", description = "Trigital API")
 public class MACController extends AbstractRestHandler {
 	
 	private static final Logger log = LoggerFactory.getLogger(MACController.class);
@@ -43,15 +44,15 @@ public class MACController extends AbstractRestHandler {
     @Autowired
     private MACDetailsService macDetailsService;
     
-    @Autowired
-    private PropertyManager propertyManager;
+	@Autowired
+	XMLFileReader xmlFileReader;
 
     @RequestMapping(value = "",
             method = RequestMethod.POST,
             consumes = {"application/json", "application/xml"},
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.CREATED)
-    @ApiOperation(value = "Create a hotel resource.", notes = "Returns the URL of the new resource in the Location header.")
+    @ApiOperation(value = "Show list of Cable modems", notes = "Returns list of Cable modems")
     public
     @ResponseBody
     ResponseEntity processCMTSDetails(@RequestBody MACDetails macDetails,
@@ -71,10 +72,9 @@ public class MACController extends AbstractRestHandler {
     @ApiOperation(value = "Get a list of cmtsips from properties files", notes = "This is a list of CMTSIP's. Enter list of CMTS IP in Properties.ini file with || as separator")
     public
     @ResponseBody
-    ResponseEntity getCMTSIP(HttpServletRequest request, HttpServletResponse response) {
+    ResponseEntity showCMTSIPData(HttpServletRequest request, HttpServletResponse response) {
     	log.info("Loding CMTS IP's from Properties");
-    	
-        return this.success("hello world");
+        return this.success(xmlFileReader.xmlDataReader());
     }
     
     public ResponseEntity success(final Object obj) {
