@@ -7,8 +7,10 @@ public class MACDetails {
 	private String mac_Address;
 	private IPDetails ipDetails;
 	private String command;
+	private Cisco10MacDetails cisco10MacDetails;
+	private CasaMacDetails casaMacDetails;
 	
-	private DefaultMACDetails defaultMACDetails;
+/*	private DefaultMACDetails defaultMACDetails;
 	private CPEMacDetails cpeMacDetails;
 	private PHYMacDetails phyMacDetails;
 	private List<QOSMacDetails> listofQosMacDetails;
@@ -20,14 +22,64 @@ public class MACDetails {
 	private PHYTelnetMacDetails phyTelnetMacDetails;
 	private List<QOSMacDetails> listofTelnetQosMacDetails;
 	//private WidebandMacDetails widebandMacDetails;
-	private CountersMacDetails countersTelnetMacDetails;
+	private CountersMacDetails countersTelnetMacDetails;*/
 
 	public MACDetails() {
 
 	}
-
-
+	
+	public MACDetails(String mac_Address, IPDetails ipDetails, String command,
+			Cisco10MacDetails cisco10MacDetails) {
+		super();
+		this.mac_Address = mac_Address;
+		this.ipDetails = ipDetails;
+		this.command = command;
+		this.cisco10MacDetails = cisco10MacDetails;
+	}
+	
 	public MACDetails(String mac_Address, IPDetails ipDetails, String command) {
+		super();
+		this.mac_Address = mac_Address;
+		this.ipDetails = ipDetails;
+		this.command = command;
+	}
+
+
+
+	public String getMac_Address() {
+		return mac_Address;
+	}
+
+	public void setMac_Address(String mac_Address) {
+		this.mac_Address = mac_Address;
+	}
+
+	public IPDetails getIpDetails() {
+		return ipDetails;
+	}
+
+	public void setIpDetails(IPDetails ipDetails) {
+		this.ipDetails = ipDetails;
+	}
+
+	public String getCommand() {
+		return command;
+	}
+
+	public void setCommand(String command) {
+		this.command = command;
+	}
+
+	public Cisco10MacDetails getCisco10MacDetails() {
+		return cisco10MacDetails;
+	}
+
+	public void setCisco10MacDetails(Cisco10MacDetails cisco10MacDetails) {
+		this.cisco10MacDetails = cisco10MacDetails;
+	}
+
+
+	/*public MACDetails(String mac_Address, IPDetails ipDetails, String command) {
 		super();
 		this.mac_Address = mac_Address;
 		this.ipDetails = ipDetails;
@@ -177,9 +229,9 @@ public class MACDetails {
 	public void setCountersTelnetMacDetails(
 			CountersMacDetails countersTelnetMacDetails) {
 		this.countersTelnetMacDetails = countersTelnetMacDetails;
-	}
+	}*/
 	
 	
-
+	
 	
 }

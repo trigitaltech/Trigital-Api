@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.trigital.cm.domain.CPEMacDetails;
 import com.trigital.cm.domain.CPETelnetMacDetails;
+import com.trigital.cm.domain.Cisco10MacDetails;
 import com.trigital.cm.domain.CountersMacDetails;
 import com.trigital.cm.domain.DefaultMACDetails;
 import com.trigital.cm.domain.DefaultTelnetMACDetails;
@@ -30,6 +31,8 @@ public class MACDetailsService {
 	
 	@Autowired
 	TelnetCommandExecutor tce;
+	
+	
 
 	String executeCommandReset, executeCommandDefault, executeCommandCpe,
 			executeCommandQos, executeCommandsWideband, executeCommandPhy,
@@ -63,6 +66,8 @@ public class MACDetailsService {
 
 	public MACDetails getMACDetails(MACDetails macDetails) {
 		
+		
+		
 		log.info("I am in getMacDetails");
 		if (macDetails.getCommand().equals("RESET")  && macDetails.getIpDetails().getCmts_make().equals("Cisco10K")) {
 
@@ -72,35 +77,7 @@ public class MACDetailsService {
 
 		} else if (macDetails.getCommand().equals("ALL") && macDetails.getIpDetails().getCmts_make().equals("Cisco10K")) {
 
-		
-					//Default Command
-					defaultMACDetails = this.executeDefaultMacDetails(macDetails.getIpDetails().getIp_Address(), macDetails.getMac_Address());
-				
-				
-					
-					// CPE Command
-					cpeMacDetails = this.executeCPEMacDetails(macDetails.getIpDetails().getIp_Address(), macDetails.getMac_Address());
-					
-					// QOS Command
-					listOfQOSMacDetails = this.executeQOSMacDetails(macDetails.getIpDetails().getIp_Address(), macDetails.getMac_Address());
-
-					//Wideband Channel Command
-					widebandMacDetails = this.executeWidebandMacDetails(macDetails.getIpDetails().getIp_Address(), macDetails.getMac_Address());
-					
-					//Phy Command
-					phyMacDetails = this.executePHYMacDetails(macDetails.getIpDetails().getIp_Address(), macDetails.getMac_Address());
-					
-					//Counters Command
-					countersMacDetails = this.executeCountersMacDetails(macDetails.getIpDetails().getIp_Address(), macDetails.getMac_Address());
-				
-			
-			
-			macDetails.setDefaultMACDetails(defaultMACDetails);
-			macDetails.setCpeMacDetails(cpeMacDetails);
-			macDetails.setPhyMacDetails(phyMacDetails);
-			macDetails.setWidebandMacDetails(widebandMacDetails);
-			macDetails.setListofQosMacDetails(listOfQOSMacDetails);
-			macDetails.setCountersMacDetails(countersMacDetails);
+			 macDetails.setCisco10MacDetails(this.getCisco10MacDetails(macDetails.getIpDetails().getIp_Address(), macDetails.getMac_Address()));
 
 		} else if (macDetails.getCommand().equals("ALL") && macDetails.getIpDetails().getCmts_make().equals("CASA")) {
 			
@@ -125,12 +102,12 @@ public class MACDetailsService {
 			
 			tce.disconnectTelnet();
 			
-			macDetails.setDefaultTelnetMACDetails(defaultTelnetMACDetails);
+			/*macDetails.setDefaultTelnetMACDetails(defaultTelnetMACDetails);
 			macDetails.setCpeTelnetMacDetails(cpeTelnetMacDetails);
 			macDetails.setPhyTelnetMacDetails(phyTelnetMacDetails);
 			//macDetails.setWidebandMacDetails(widebandMacDetails);
 			macDetails.setListofTelnetQosMacDetails(listOfQOSMacDetails);
-			macDetails.setCountersTelnetMacDetails(countersMacDetails);
+			macDetails.setCountersTelnetMacDetails(countersMacDetails);*/
 			
 		}
 		
@@ -457,5 +434,33 @@ public class MACDetailsService {
 				return countersMacDetails;
 		}
 		
+		public Cisco10MacDetails getCisco10MacDetails(String ipAddress,String macAddress){
+
+			//Default Command
+			defaultMACDetails = this.executeDefaultMacDetails(ipAddress, macAddress);
+		
+		
+			
+			// CPE Command
+			cpeMacDetails = this.executeCPEMacDetails(ipAddress, macAddress);
+			
+			// QOS Command
+			listOfQOSMacDetails = this.executeQOSMacDetails(ipAddress, macAddress);
+
+			//Wideband Channel Command
+			widebandMacDetails = this.executeWidebandMacDetails(ipAddress, macAddress);
+			
+			//Phy Command
+			phyMacDetails = this.executePHYMacDetails(ipAddress, macAddress);
+			
+			//Counters Command
+			countersMacDetails = this.executeCountersMacDetails(ipAddress, macAddress);
+
+			
+			return new Cisco10MacDetails(defaultMACDetails, cpeMacDetails, listOfQOSMacDetails, widebandMacDetails,
+					phyMacDetails, countersMacDetails);
+			
+			
+		}
 
 }
