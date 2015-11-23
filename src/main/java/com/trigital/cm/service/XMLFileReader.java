@@ -27,7 +27,7 @@ public class XMLFileReader {
 
 		try {
 
-			File fXmlFile = new File("d:\\cmts.xml");
+			File fXmlFile = new File("/home/expan/properties.xml");
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory
 					.newInstance();
 
@@ -45,8 +45,11 @@ public class XMLFileReader {
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 
 					Element eElement = (Element) nNode;
+					
 					String name = eElement.getElementsByTagName("name").item(0).getTextContent();
+					
 					String ipAddress =  eElement.getElementsByTagName("ipaddress").item(0).getTextContent();
+					
 					String model = eElement.getElementsByTagName("model").item(0).getTextContent();
 					cmtsIps.add(new Cmts(name, ipAddress, model));
 				}

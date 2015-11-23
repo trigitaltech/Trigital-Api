@@ -27,7 +27,7 @@
 						Address :</label>
 					<div class="col-sm-4">
 						<select ng-model="macDetail.ipDetails" ng-options="cmtsip.name for cmtsip in cmtsips" class="form-control">
-                                <option value="">Select Event</option>
+                                <option value="">Select CMTS</option>
                         </select>
 					</div>
 				</div>              
@@ -72,80 +72,83 @@
                         </thead>
                         <tbody>
                             <tr>
-                                  <td class="info">{{macDetail.defaultMACDetails.mac_Address}}</td>
-                                  <td class="info">{{macDetail.ipDetails.ip_Address}}</td>
-                                  <td class="info">{{macDetail.defaultMACDetails.i_f}}</td>
-                                  <td class="info">{{macDetail.defaultMACDetails.mac_state}}</td>
-                                  <td class="info">{{macDetail.defaultMACDetails.prim_Sid}}</td>
-                                  <td class="info">{{macDetail.defaultMACDetails.rxpwr}}</td>
-                                  <td class="info">{{macDetail.defaultMACDetails.timing_Offset}}</td>
-                                  <td class="info">{{macDetail.defaultMACDetails.num_CPE}}</td>
-                                  <td class="info">{{macDetail.defaultMACDetails.dip}}</td>
-                                  <td class="info">{{macDetail.cmts_make}}</td>
+                                  <td class="info">{{macDetail.cisco10MacDetails.defaultMACDetails.mac_Address}}</td>
+                                  <td class="info">{{macDetail.cisco10MacDetails.ipDetails.ip_Address}}</td>
+                                  <td class="info">{{macDetail.cisco10MacDetails.defaultMACDetails.i_f}}</td>
+                                  <td class="info">{{macDetail.cisco10MacDetails.defaultMACDetails.mac_state}}</td>
+                                  <td class="info">{{macDetail.cisco10MacDetails.defaultMACDetails.prim_Sid}}</td>
+                                  <td class="info">{{macDetail.cisco10MacDetails.defaultMACDetails.rxpwr}}</td>
+                                  <td class="info">{{macDetail.cisco10MacDetails.defaultMACDetails.timing_Offset}}</td>
+                                  <td class="info">{{macDetail.cisco10MacDetails.defaultMACDetails.num_CPE}}</td>
+                                  <td class="info">{{macDetail.cisco10MacDetails.defaultMACDetails.dip}}</td>
+                                  <td class="info">{{macDetail.cisco10MacDetails.cmts_make}}</td>
                             </tr>
                         </tbody>
                     </table>
 				</div-->
 				
-				 <div class="form-group" ng-show="tableShow">
-					<table class="table table-condensed">
+				 <div class="form-group">
+					<table class="table table-condensed" ng-show="tableShow">
                         <thead>
-                            <tr>
+                        	<tr ng-show="tableShow && macDetail.cisco10MacDetails === null">
+                        		<td class="info" colspan="3">No Records found</td>
+                        	</tr>
+                            <tr ng-show="tableShow && macDetail.cisco10MacDetails != null">
                                   <th class="info"></th>
                                   <th class="info">Mac Address</th>
 								  <th class="info"></th>
 								  <th class="info"></th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody ng-show="tableShow && macDetail.cisco10MacDetails != null ">
                             <tr>
                                   <td class="info" rowspan="12">Default MacDetails</td>
                                   <td class="info">Mac Address</td>
-                                  <td class="info" colspan="2">{{macDetail.defaultMACDetails.mac_Address}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.cisco10MacDetails.defaultMACDetails.mac_Address}}</td>
                             </tr>
                            <tr>
                            		 <td class="info">IP Address</td>
-                                  <td class="info" colspan="2">{{macDetail.defaultMACDetails.ip_Address}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.defaultMACDetails.ip_Address}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">IF</td>
-                                  <td class="info"colspan="2">{{macDetail.defaultMACDetails.i_f}}</td>
+                                  <td class="info"colspan="2">{{macDetail.cisco10MacDetails.cisco10MacDetails.defaultMACDetails.i_f}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">Mac State</td>
-                                  <td class="info" colspan="2">{{macDetail.defaultMACDetails.mac_state}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.cisco10MacDetails.defaultMACDetails.mac_state}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">PRIM_SID</td>
-                                  <td class="info" colspan="2">{{macDetail.defaultMACDetails.prim_Sid}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.defaultMACDetails.prim_Sid}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">RXPWR</td>
-                                  <td class="info" colspan="2">{{macDetail.defaultMACDetails.rxpwr}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.defaultMACDetails.rxpwr}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">Timing Offset</td>
-                                  <td class="info" colspan="2">{{macDetail.defaultMACDetails.timing_Offset}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.defaultMACDetails.timing_Offset}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">Num_CPE</td>
-                                  <td class="info" colspan="2">{{macDetail.defaultMACDetails.num_CPE}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.defaultMACDetails.num_CPE}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">CMTS Make</td>
-                                  <td class="info" colspan="2">{{macDetail.defaultMACDetails.cmts_make}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.defaultMACDetails.cmts_make}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">Command</td>
-                                  <td class="info" colspan="2">{{macDetail.defaultMACDetails.command}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.defaultMACDetails.command}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">Flag</td>
-                                  <td class="info" colspan="2">{{macDetail.defaultMACDetails.flag}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.defaultMACDetails.flag}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">Dip</td>
-                                  <td class="info" colspan="2">{{macDetail.defaultMACDetails.dip}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.defaultMACDetails.dip}}</td>
                             </tr>
                         </tbody>
                         
@@ -153,19 +156,19 @@
                             <tr>
                                   <td class="info" rowspan="4">CPE MacDetails</td>
                                   <td class="info">CPE Mac Address</td>
-                                  <td class="info" colspan="2">{{macDetail.cpeMacDetails.mac_Address}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.cpeMacDetails.mac_Address}}</td>
                             </tr>
                            <tr>
                            		 <td class="info">CPE IP Address</td>
-                                  <td class="info" colspan="2">{{macDetail.cpeMacDetails.ip_Address}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.cpeMacDetails.ip_Address}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">Dual IP Address</td>
-                                  <td class="info" colspan="2">{{macDetail.cpeMacDetails.dual_ip}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.cpeMacDetails.dual_ip}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">Device Class</td>
-                                  <td class="info" colspan="2">{{macDetail.cpeMacDetails.device_Class}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.cpeMacDetails.device_Class}}</td>
                             </tr>
                         </tbody>
                         
@@ -173,43 +176,43 @@
                             <tr>
                                   <td class="info" rowspan="10">PHY MacDetails</td>
                                   <td class="info">PHY Mac Address</td>
-                                  <td class="info" colspan="2">{{macDetail.phyMacDetails.mac_Address}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.phyMacDetails.mac_Address}}</td>
                             </tr>
                            <tr>
                            		 <td class="info">SID</td>
-                                  <td class="info" colspan="2">{{macDetail.phyMacDetails.sid}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.phyMacDetails.sid}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">USPWR</td>
-                                  <td class="info" colspan="2">{{macDetail.phyMacDetails.uspwr}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.phyMacDetails.uspwr}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">URMER</td>
-                                  <td class="info" colspan="2">{{macDetail.phyMacDetails.usmer}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.phyMacDetails.usmer}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">Timing offset</td>
-                                  <td class="info" colspan="2">{{macDetail.phyMacDetails.timing_offset}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.phyMacDetails.timing_offset}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">DSPWR</td>
-                                  <td class="info" colspan="2">{{macDetail.phyMacDetails.dspwr}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.phyMacDetails.dspwr}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">DSMER</td>
-                                  <td class="info" colspan="2">{{macDetail.phyMacDetails.dsmer}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.phyMacDetails.dsmer}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">Mode</td>
-                                  <td class="info" colspan="2">{{macDetail.phyMacDetails.mode}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.phyMacDetails.mode}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">Docsis</td>
-                                  <td class="info" colspan="2">{{macDetail.phyMacDetails.docsis}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.phyMacDetails.docsis}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">IF</td>
-                                  <td class="info" colspan="2">{{macDetail.phyMacDetails.i_F}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.phyMacDetails.i_F}}</td>
                             </tr>
                         </tbody>
                         
@@ -217,53 +220,53 @@
                             <tr>
                                   <td class="info" rowspan="10">QOS MacDetails</td>
                                   <td class="info">SFID</td>
-                                  <td class="info" colspan="1">{{macDetail.listofQosMacDetails[0].sfid}}</td>
-                                  <td class="info" colspan="1">{{macDetail.listofQosMacDetails[1].sfid}}</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[0].sfid}}</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[1].sfid}}</td>
                             </tr>
                            <tr>
                            		  <td class="info">DIR</td>
-                                  <td class="info" colspan="1">{{macDetail.listofQosMacDetails[0].dir}}</td>
-                                  <td class="info" colspan="1">{{macDetail.listofQosMacDetails[1].dir}}</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[0].dir}}</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[1].dir}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">Current State</td>
-                                   <td class="info" colspan="1">{{macDetail.listofQosMacDetails[0].current_State}}</td>
-                                  <td class="info" colspan="1">{{macDetail.listofQosMacDetails[1].current_State}}</td>
+                                   <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[0].current_State}}</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[1].current_State}}</td>
                             </tr>
                              <tr>
                             	  <td class="info">SID</td>
-                                   <td class="info" colspan="1">{{macDetail.listofQosMacDetails[0].sid}}</td>
-                                  <td class="info" colspan="1">{{macDetail.listofQosMacDetails[1].sid}}</td>
+                                   <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[0].sid}}</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[1].sid}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">Sched Type</td>
-                                   <td class="info" colspan="1">{{macDetail.listofQosMacDetails[0].sched_Type}}</td>
-                                  <td class="info" colspan="1">{{macDetail.listofQosMacDetails[1].sched_Type}}</td>
+                                   <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[0].sched_Type}}</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[1].sched_Type}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">Prio</td>
-                                   <td class="info" colspan="1">{{macDetail.listofQosMacDetails[0].prio}}</td>
-                                  <td class="info" colspan="1">{{macDetail.listofQosMacDetails[1].prio}}</td>
+                                   <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[0].prio}}</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[1].prio}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">Max Sus Rate</td>
-                                   <td class="info" colspan="1">{{macDetail.listofQosMacDetails[0].max_Sus_Rate}}</td>
-                                  <td class="info" colspan="1">{{macDetail.listofQosMacDetails[1].max_Sus_Rate}}</td>
+                                   <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[0].max_Sus_Rate}}</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[1].max_Sus_Rate}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">Max BRST</td>
-                                   <td class="info" colspan="1">{{macDetail.listofQosMacDetails[0].max_Brst}}</td>
-                                  <td class="info" colspan="1">{{macDetail.listofQosMacDetails[1].max_Brst}}</td>
+                                   <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[0].max_Brst}}</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[1].max_Brst}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">Min Rsv Rate</td>
-                                   <td class="info" colspan="1">{{macDetail.listofQosMacDetails[0].min_Rsv_Rate}}</td>
-                                  <td class="info" colspan="1">{{macDetail.listofQosMacDetails[1].min_Rsv_Rate}}</td>
+                                   <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[0].min_Rsv_Rate}}</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[1].min_Rsv_Rate}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">Through Put</td>
-                                   <td class="info" colspan="1">{{macDetail.listofQosMacDetails[0].through_put}}</td>
-                                  <td class="info" colspan="1">{{macDetail.listofQosMacDetails[1].through_put}}</td>
+                                   <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[0].through_put}}</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[1].through_put}}</td>
                             </tr>
                         </tbody>
                         
@@ -271,27 +274,27 @@
                             <tr>
                                   <td class="info" rowspan="6">Wideband MacDetails</td>
                                   <td class="info">Wideband Mac Address</td>
-                                  <td class="info" colspan="2">{{macDetail.widebandMacDetails.mac_Address}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.widebandMacDetails.mac_Address}}</td>
                             </tr>
                            <tr>
                            		 <td class="info">IP Address</td>
-                                  <td class="info" colspan="2">{{macDetail.widebandMacDetails.ip_Address}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.widebandMacDetails.ip_Address}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">Mac State</td>
-                                  <td class="info" colspan="2">{{macDetail.widebandMacDetails.mac_State}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.widebandMacDetails.mac_State}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">DSXUS</td>
-                                  <td class="info" colspan="2">{{macDetail.widebandMacDetails.dSxUS}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.widebandMacDetails.dSxUS}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">Primary WB</td>
-                                  <td class="info" colspan="2">{{macDetail.widebandMacDetails.primary_wb}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.widebandMacDetails.primary_wb}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">IF</td>
-                                  <td class="info" colspan="2">{{macDetail.widebandMacDetails.i_F}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.widebandMacDetails.i_F}}</td>
                             </tr>
                         </tbody>
                         
@@ -299,28 +302,249 @@
                             <tr>
                                   <td class="info" rowspan="5">Counters MacDetails</td>
                                   <td class="info">Counters Mac Address</td>
-                                  <td class="info" colspan="2">{{macDetail.countersMacDetails.mac_Address}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.countersMacDetails.mac_Address}}</td>
                             </tr>
                            <tr>
                            		 <td class="info">US Packets</td>
-                                  <td class="info" colspan="2">{{macDetail.countersMacDetails.us_packets}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.countersMacDetails.us_packets}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">US Bytes</td>
-                                  <td class="info" colspan="2">{{macDetail.countersMacDetails.us_bytes}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.countersMacDetails.us_bytes}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">DS Packets</td>
-                                  <td class="info" colspan="2">{{macDetail.countersMacDetails.ds_packets}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.countersMacDetails.ds_packets}}</td>
                             </tr>
                             <tr>
                             	  <td class="info">DS Bytes</td>
-                                  <td class="info" colspan="2">{{macDetail.countersMacDetails.ds_bytes}}</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.countersMacDetails.ds_bytes}}</td>
+                            </tr>
+                        </tbody>
+                        
+                        <tbody ng-show="tableShow && macDetail.casaMacDetails != null ">
+                            <tr>
+                                  <td class="info" rowspan="12">Default Telnet MacDetails</td>
+                                  <td class="info">Mac Address</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.defaultMACDetails.mac_Address}}</td>
+                            </tr>
+                           <tr>
+                           		 <td class="info">IP Address</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.defaultMACDetails.ip_Address}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">IF</td>
+                                  <td class="info"colspan="2">{{macDetail.cisco10MacDetails.cisco10MacDetails.defaultMACDetails.i_f}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Mac State</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.cisco10MacDetails.defaultMACDetails.mac_state}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">PRIM_SID</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.defaultMACDetails.prim_Sid}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">RXPWR</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.defaultMACDetails.rxpwr}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Timing Offset</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.defaultMACDetails.timing_Offset}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Num_CPE</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.defaultMACDetails.num_CPE}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">CMTS Make</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.defaultMACDetails.cmts_make}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Command</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.defaultMACDetails.command}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Flag</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.defaultMACDetails.flag}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Dip</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.defaultMACDetails.dip}}</td>
+                            </tr>
+                        </tbody>
+                        
+                        <tbody>
+                            <tr>
+                                  <td class="info" rowspan="4">CPE MacDetails</td>
+                                  <td class="info">CPE Mac Address</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.cpeMacDetails.mac_Address}}</td>
+                            </tr>
+                           <tr>
+                           		 <td class="info">CPE IP Address</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.cpeMacDetails.ip_Address}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Dual IP Address</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.cpeMacDetails.dual_ip}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Device Class</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.cpeMacDetails.device_Class}}</td>
+                            </tr>
+                        </tbody>
+                        
+                        <tbody>
+                            <tr>
+                                  <td class="info" rowspan="10">PHY MacDetails</td>
+                                  <td class="info">PHY Mac Address</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.phyMacDetails.mac_Address}}</td>
+                            </tr>
+                           <tr>
+                           		 <td class="info">SID</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.phyMacDetails.sid}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">USPWR</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.phyMacDetails.uspwr}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">URMER</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.phyMacDetails.usmer}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Timing offset</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.phyMacDetails.timing_offset}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">DSPWR</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.phyMacDetails.dspwr}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">DSMER</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.phyMacDetails.dsmer}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Mode</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.phyMacDetails.mode}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Docsis</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.phyMacDetails.docsis}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">IF</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.phyMacDetails.i_F}}</td>
+                            </tr>
+                        </tbody>
+                        
+                        <tbody>
+                            <tr>
+                                  <td class="info" rowspan="10">QOS MacDetails</td>
+                                  <td class="info">SFID</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[0].sfid}}</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[1].sfid}}</td>
+                            </tr>
+                           <tr>
+                           		  <td class="info">DIR</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[0].dir}}</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[1].dir}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Current State</td>
+                                   <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[0].current_State}}</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[1].current_State}}</td>
+                            </tr>
+                             <tr>
+                            	  <td class="info">SID</td>
+                                   <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[0].sid}}</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[1].sid}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Sched Type</td>
+                                   <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[0].sched_Type}}</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[1].sched_Type}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Prio</td>
+                                   <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[0].prio}}</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[1].prio}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Max Sus Rate</td>
+                                   <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[0].max_Sus_Rate}}</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[1].max_Sus_Rate}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Max BRST</td>
+                                   <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[0].max_Brst}}</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[1].max_Brst}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Min Rsv Rate</td>
+                                   <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[0].min_Rsv_Rate}}</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[1].min_Rsv_Rate}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Through Put</td>
+                                   <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[0].through_put}}</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listofQosMacDetails[1].through_put}}</td>
+                            </tr>
+                        </tbody>
+                        
+                        <tbody>
+                            <tr>
+                                  <td class="info" rowspan="6">Wideband MacDetails</td>
+                                  <td class="info">Wideband Mac Address</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.widebandMacDetails.mac_Address}}</td>
+                            </tr>
+                           <tr>
+                           		 <td class="info">IP Address</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.widebandMacDetails.ip_Address}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Mac State</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.widebandMacDetails.mac_State}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">DSXUS</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.widebandMacDetails.dSxUS}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Primary WB</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.widebandMacDetails.primary_wb}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">IF</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.widebandMacDetails.i_F}}</td>
+                            </tr>
+                        </tbody>
+                        
+                        <tbody>
+                            <tr>
+                                  <td class="info" rowspan="5">Counters MacDetails</td>
+                                  <td class="info">Counters Mac Address</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.countersMacDetails.mac_Address}}</td>
+                            </tr>
+                           <tr>
+                           		 <td class="info">US Packets</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.countersMacDetails.us_packets}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">US Bytes</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.countersMacDetails.us_bytes}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">DS Packets</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.countersMacDetails.ds_packets}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">DS Bytes</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.countersMacDetails.ds_bytes}}</td>
                             </tr>
                         </tbody>
                     </table>
 				</div>
-            
 			</form>
 		</div>
 	</div>

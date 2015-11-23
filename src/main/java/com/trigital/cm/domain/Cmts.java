@@ -4,14 +4,14 @@ public class Cmts {
 	
 	private String name;
 	private String ipAddress;
-	private String make;
+	private String model;
 	
 	
-	public Cmts(String name, String ipAddress, String make) {
+	public Cmts(String name, String ipAddress, String model) {
 		super();
 		this.name = name;
 		this.ipAddress = ipAddress;
-		this.make = make;
+		this.model = model;
 	}
 	
 	public String getName() {
@@ -26,15 +26,11 @@ public class Cmts {
 	public void setIpAddress(String ipAddress) {
 		this.ipAddress = ipAddress;
 	}
-	public String getMake() {
-		return make;
+	public String getModel() {
+		return model;
 	}
-	public void setMake(String make) {
-		this.make = make;
+	public void setModel(String model) {
+		this.model = model;
 	}
 	
-	
-	
-	
-
 }

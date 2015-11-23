@@ -2,9 +2,9 @@ package com.trigital.cm.domain;
 
 public class IPDetails {
 	
-	private String ip_Address;
+	private String ipAddress;
 	private String name;
-	private String cmts_make;
+	private String model;
 	
 	
 	
@@ -12,30 +12,53 @@ public class IPDetails {
 		
 	}
 
-	public IPDetails(String ip_Address, String name, String cmts_make) {
-		this.ip_Address = ip_Address;
-		this.name = name;
-		this.cmts_make = cmts_make;
-	}
+
 	
-	public String getIp_Address() {
-		return ip_Address;
+
+	public IPDetails(String ipAddress, String name, String model) {
+		super();
+		this.ipAddress = ipAddress;
+		this.name = name;
+		this.model = model;
 	}
-	public void setIp_Address(String ip_Address) {
-		this.ip_Address = ip_Address;
+
+
+
+
+	public String getIpAddress() {
+		return ipAddress;
 	}
+
+
+
+	public void setIpAddress(String ipAddress) {
+		this.ipAddress = ipAddress;
+	}
+
+
+
 	public String getName() {
 		return name;
 	}
+
+
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getCmts_make() {
-		return cmts_make;
+
+
+
+	public String getModel() {
+		return model;
 	}
-	public void setCmts_make(String cmts_make) {
-		this.cmts_make = cmts_make;
+
+
+
+	public void setModel(String model) {
+		this.model = model;
 	}
+
 	
 	
 }
