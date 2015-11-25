@@ -14,9 +14,6 @@
            alert('Data Processing');
         }).then(function(res){
             $scope.tableShow = true;
-        }).error(function(data, status) {
-             $scope.messages = data;
-             $scope.status = status;
         }).catch(function(data,status){
              $scope.messages = data;
              $scope.status = status;
@@ -33,7 +30,7 @@
     };
       
     $scope.clearMacDetails = function(){
-    	$scope.macDetail = null";
+    	$scope.macDetail = null;
     	
     };
     
