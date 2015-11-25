@@ -8,22 +8,33 @@
 	$scope.macDetail = new Item();
      
     $scope.getMacDetails = function(){
+        $scope.messages=null;
     	$scope.macDetail.command = "ALL";
     	$scope.macDetail.$save(function(){
            alert('Data Processing');
         }).then(function(res){
             $scope.tableShow = true;
+        }).error(function(data, status) {
+             $scope.messages = data;
+             $scope.status = status;
+        }).catch(function(data,status){
+             $scope.messages = data;
+             $scope.status = status;
         });
-    	
     };
       
-      $scope.reset= function(){
+    $scope.reset= function(){
     	$scope.macDetail.command = "RESET";
     	$scope.macDetail.$save(function(){
            alert('Data Processing');
         }).success(function(data){
             $scope.macDetail=data;
         });
+    };
+      
+    $scope.clearMacDetails = function(){
+    	$scope.macDetail = null";
+    	
     };
     
   };

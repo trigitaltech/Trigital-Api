@@ -87,8 +87,14 @@
                     </table>
 				</div-->
 				
-				 <div class="form-group">
-					<table class="table table-condensed" ng-show="tableShow">
+				 <div class="form-group" ng-show="tableShow === false && messages === null">
+				 		{{messages}}
+				 </div>
+				
+				
+				 <div class="form-group" ng-show="tableShow && messages !=null">
+                     
+					<table class="table table-condensed">
                         <thead>
                         	<tr ng-show="tableShow && macDetail.cisco10MacDetails === null">
                         		<td class="info" colspan="3">No Records found</td>

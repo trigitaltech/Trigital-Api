@@ -66,7 +66,6 @@ public class MACDetailsService {
 
 	public MACDetails getMACDetails(MACDetails macDetails) {
 
-		log.info("I am in getMacDetails");
 		if (macDetails.getCommand().equals("RESET")
 				&& macDetails.getIpDetails().getModel().equals("CISCO")) {
 
@@ -87,7 +86,7 @@ public class MACDetailsService {
 
 			macDetails.setCasaMacDetails(this.getCasaMacDetails(macDetails.getIpDetails().getIpAddress(),macDetails.getMac_Address()));
 		}
-
+		
 		return macDetails;
 	}
 
@@ -102,14 +101,21 @@ public class MACDetailsService {
 
 			System.out.println(executeCommandDefault);
 
-			defaultCommandResults = esc.shellCommandExecuter(
-					executeCommandDefault).split("\n")[3].split("\\s+");
+			String result = esc.shellCommandExecuter(executeCommandDefault);
+			
+			if(result !=null){
+				
+				defaultCommandResults = result.split("\n")[3].split("\\s+");
+				
+				defaultMACDetails = new DefaultMACDetails(defaultCommandResults[0],
+						defaultCommandResults[1], defaultCommandResults[2],
+						defaultCommandResults[3], defaultCommandResults[4],
+						defaultCommandResults[5], defaultCommandResults[6],
+						defaultCommandResults[7], defaultCommandResults[8]);
+			}
+			
 
-			defaultMACDetails = new DefaultMACDetails(defaultCommandResults[0],
-					defaultCommandResults[1], defaultCommandResults[2],
-					defaultCommandResults[3], defaultCommandResults[4],
-					defaultCommandResults[5], defaultCommandResults[6],
-					defaultCommandResults[7], defaultCommandResults[8]);
+			
 
 			defaultMACDetails.setFlag(true);
 
@@ -153,15 +159,22 @@ public class MACDetailsService {
 		executeCommandDefault = "shcm " + macAddress;
 		System.out.println(executeCommandDefault);
 
-		defaultCommandResults = tce.executeTelnetCommand(executeCommandDefault)
-				.split("\n")[3].split("\\s+");
+		String result = tce.executeTelnetCommand(executeCommandDefault);
+		
+		if(result != null){
+			
+			defaultCommandResults = result.split("\n")[3].split("\\s+");
+			
+			defaultTelnetMACDetails = new DefaultTelnetMACDetails(
+					defaultCommandResults[0], defaultCommandResults[1],
+					defaultCommandResults[2], defaultCommandResults[3],
+					defaultCommandResults[4], defaultCommandResults[5],
+					defaultCommandResults[6], defaultCommandResults[7],
+					defaultCommandResults[8], defaultCommandResults[9]);
+		}
+		
 
-		defaultTelnetMACDetails = new DefaultTelnetMACDetails(
-				defaultCommandResults[0], defaultCommandResults[1],
-				defaultCommandResults[2], defaultCommandResults[3],
-				defaultCommandResults[4], defaultCommandResults[5],
-				defaultCommandResults[6], defaultCommandResults[7],
-				defaultCommandResults[8], defaultCommandResults[9]);
+		
 
 		return defaultTelnetMACDetails;
 	}
@@ -175,11 +188,20 @@ public class MACDetailsService {
 			executeCommandCpe = "rsh -l root " + ipAddress + " shcm "
 					+ macAddress + " cpe";
 			System.out.println(executeCommandCpe);
-			cpeCommandResults = esc.shellCommandExecuter(executeCommandCpe)
-					.split("\n")[1].split("\\s+");
-			cpeMacDetails = new CPEMacDetails(cpeCommandResults[0],
-					cpeCommandResults[1], cpeCommandResults[2],
-					cpeCommandResults[3]);
+			
+			String result = esc.shellCommandExecuter(executeCommandCpe);
+			
+			if(result !=null){
+				
+				cpeCommandResults = result.split("\n")[1].split("\\s+");
+				
+				cpeMacDetails = new CPEMacDetails(cpeCommandResults[0],
+						cpeCommandResults[1], cpeCommandResults[2],
+						cpeCommandResults[3]);
+			}
+			
+			
+			
 
 		} catch (Exception e) {
 
@@ -212,12 +234,17 @@ public class MACDetailsService {
 
 		System.out.println(executeCommandCpe);
 
-		cpeCommandResults = tce.executeTelnetCommand(executeCommandCpe).split(
-				"\n")[1].split("\\s+");
+		String result = tce.executeTelnetCommand(executeCommandCpe);
+		
+		if(result !=null){
+			
+			cpeCommandResults = result.split("\n")[1].split("\\s+");
 
-		cpeTelnetMacDetails = new CPETelnetMacDetails(cpeCommandResults[0],
-				cpeCommandResults[1], cpeCommandResults[2],
-				cpeCommandResults[3], cpeCommandResults[4]);
+			cpeTelnetMacDetails = new CPETelnetMacDetails(cpeCommandResults[0],
+					cpeCommandResults[1], cpeCommandResults[2],
+					cpeCommandResults[3], cpeCommandResults[4]);
+		}
+		
 
 		return cpeTelnetMacDetails;
 	}
@@ -232,24 +259,28 @@ public class MACDetailsService {
 			executeCommandQos = "rsh -l root " + ipAddress + " shcm "
 					+ macAddress + " qos";
 			System.out.println(executeCommandQos);
-			qosCommandResults = esc.shellCommandExecuter(executeCommandQos)
-					.split("\n");
-
-			qosStringData = qosCommandResults[3].split("\\s+");
-
-			macDetailsQosA = new QOSMacDetails(qosStringData[0],
-					qosStringData[1], qosStringData[2], qosStringData[3],
-					qosStringData[4], qosStringData[5], qosStringData[6],
-					qosStringData[7], qosStringData[8], qosStringData[9]);
-			listOfQOSMacDetails.add(macDetailsQosA);
-
-			qosStringData = qosCommandResults[4].split("\\s+");
-
-			macDetailsQosB = new QOSMacDetails(qosStringData[0],
-					qosStringData[1], qosStringData[2], qosStringData[3],
-					qosStringData[4], qosStringData[5], qosStringData[6],
-					qosStringData[7], qosStringData[8], qosStringData[9]);
-			listOfQOSMacDetails.add(macDetailsQosB);
+			
+			String result = esc.shellCommandExecuter(executeCommandQos);
+			
+			if(result != null){
+				
+				qosCommandResults = result.split("\n");
+				qosStringData = qosCommandResults[3].split("\\s+");
+				
+				macDetailsQosA = new QOSMacDetails(qosStringData[0],
+						qosStringData[1], qosStringData[2], qosStringData[3],
+						qosStringData[4], qosStringData[5], qosStringData[6],
+						qosStringData[7], qosStringData[8], qosStringData[9]);
+				listOfQOSMacDetails.add(macDetailsQosA);
+				
+				qosStringData = qosCommandResults[4].split("\\s+");
+				
+				macDetailsQosB = new QOSMacDetails(qosStringData[0],
+						qosStringData[1], qosStringData[2], qosStringData[3],
+						qosStringData[4], qosStringData[5], qosStringData[6],
+						qosStringData[7], qosStringData[8], qosStringData[9]);
+				listOfQOSMacDetails.add(macDetailsQosB);
+			}
 
 		} catch (Exception e) {
 
@@ -315,13 +346,18 @@ public class MACDetailsService {
 
 			System.out.println(executeCommandsWideband);
 
-			wideBandCommandResults = esc.shellCommandExecuter(
-					executeCommandsWideband).split("\n")[2].split("\\s+");
+			String result = esc.shellCommandExecuter(executeCommandsWideband);
+			
+			if(result != null){
+				
+				wideBandCommandResults = result.split("\n")[2].split("\\s+");
 
-			widebandMacDetails = new WidebandMacDetails(
-					wideBandCommandResults[0], wideBandCommandResults[1],
-					wideBandCommandResults[2], wideBandCommandResults[3],
-					wideBandCommandResults[4], wideBandCommandResults[5]);
+				widebandMacDetails = new WidebandMacDetails(
+						wideBandCommandResults[0], wideBandCommandResults[1],
+						wideBandCommandResults[2], wideBandCommandResults[3],
+						wideBandCommandResults[4], wideBandCommandResults[5]);
+			}
+			
 
 		} catch (Exception e) {
 
@@ -349,15 +385,19 @@ public class MACDetailsService {
 
 			System.out.println(executeCommandPhy);
 
-			phyCommandResults = esc.shellCommandExecuter(executeCommandPhy)
-					.split("\n")[3].split("\\s+");
+			String result = esc.shellCommandExecuter(executeCommandPhy);
+			
+			if(result != null){
+				phyCommandResults = result.split("\n")[3].split("\\s+");
 
-			phyMacDetails = new PHYMacDetails(phyCommandResults[0],
-					phyCommandResults[1], phyCommandResults[2],
-					phyCommandResults[3], phyCommandResults[4],
-					phyCommandResults[5], phyCommandResults[6],
-					phyCommandResults[7], phyCommandResults[8],
-					phyCommandResults[9]);
+				phyMacDetails = new PHYMacDetails(phyCommandResults[0],
+						phyCommandResults[1], phyCommandResults[2],
+						phyCommandResults[3], phyCommandResults[4],
+						phyCommandResults[5], phyCommandResults[6],
+						phyCommandResults[7], phyCommandResults[8],
+						phyCommandResults[9]);
+			}
+			
 
 		} catch (Exception e) {
 
@@ -378,15 +418,20 @@ public class MACDetailsService {
 
 		System.out.println(executeCommandPhy);
 
-		phyCommandResults = tce.executeTelnetCommand(executeCommandPhy).split(
-				"\n")[3].split("\\s+");
+		String result = tce.executeTelnetCommand(executeCommandPhy);
+		
+		if( result != null){
+			
+			phyCommandResults = result.split("\n")[3].split("\\s+");
 
-		phyTelnetMacDetails = new PHYTelnetMacDetails(phyCommandResults[0],
-				phyCommandResults[1], phyCommandResults[2],
-				phyCommandResults[3], phyCommandResults[4],
-				phyCommandResults[5], phyCommandResults[6],
-				phyCommandResults[7], phyCommandResults[8],
-				phyCommandResults[9]);
+			phyTelnetMacDetails = new PHYTelnetMacDetails(phyCommandResults[0],
+					phyCommandResults[1], phyCommandResults[2],
+					phyCommandResults[3], phyCommandResults[4],
+					phyCommandResults[5], phyCommandResults[6],
+					phyCommandResults[7], phyCommandResults[8],
+					phyCommandResults[9]);
+		}
+		
 
 		return phyTelnetMacDetails;
 	}
@@ -403,13 +448,18 @@ public class MACDetailsService {
 
 			System.out.println(executeCommandCounters);
 
-			countersCommandResults = esc.shellCommandExecuter(
-					executeCommandCounters).split("\n")[1].split("\\s+");
+			String result = esc.shellCommandExecuter(executeCommandCounters);
+			
+			if(result !=null){
+				
+				countersCommandResults = result.split("\n")[1].split("\\s+");
 
-			countersTelnetMacDetails = new CountersMacDetails(
-					countersCommandResults[0], countersCommandResults[1],
-					countersCommandResults[2], countersCommandResults[3],
-					countersCommandResults[4]);
+				countersTelnetMacDetails = new CountersMacDetails(
+						countersCommandResults[0], countersCommandResults[1],
+						countersCommandResults[2], countersCommandResults[3],
+						countersCommandResults[4]);
+			}
+			
 
 		} catch (Exception e) {
 
@@ -427,12 +477,17 @@ public class MACDetailsService {
 
 		System.out.println(executeCommandCounters);
 
-		countersCommandResults = tce.executeTelnetCommand(
-				executeCommandCounters).split("\n")[2].split("\\s+");
+		String result = tce.executeTelnetCommand(executeCommandCounters);
+		
+		if(result !=null){
+			
+			countersCommandResults = result.split("\n")[2].split("\\s+");
 
-		countersMacDetails = new CountersMacDetails(countersCommandResults[0],
-				countersCommandResults[1], countersCommandResults[2],
-				countersCommandResults[3], countersCommandResults[4]);
+			countersMacDetails = new CountersMacDetails(countersCommandResults[0],
+					countersCommandResults[1], countersCommandResults[2],
+					countersCommandResults[3], countersCommandResults[4]);
+		}
+		
 
 		return countersMacDetails;
 	}

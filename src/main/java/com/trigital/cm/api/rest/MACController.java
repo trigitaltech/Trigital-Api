@@ -22,6 +22,7 @@ import scala.collection.immutable.Page;
 
 import com.trigital.cm.domain.MACDetails;
 import com.trigital.cm.exception.DataFormatException;
+import com.trigital.cm.exception.NoRecordsFoundException;
 import com.trigital.cm.service.MACDetailsService;
 import com.trigital.cm.service.PropertyManager;
 import com.trigital.cm.service.TelnetCommandExecutor;
@@ -57,12 +58,16 @@ public class MACController extends AbstractRestHandler {
     @ResponseBody
     ResponseEntity processCMTSDetails(@RequestBody MACDetails macDetails,
                                  HttpServletRequest request, HttpServletResponse response) {
+    	log.info("Ip Address "+macDetails.getIpDetails().getIpAddress());
+    	log.info("Mac Address "+macDetails.getMac_Address());
+    	log.info("Command "+macDetails.getCommand());
+    	log.info("Make "+macDetails.getIpDetails().getModel());
+    	macDetails = this.macDetailsService.getMACDetails(macDetails);
     	
-    	System.out.println("Ip Address "+macDetails.getIpDetails().getIpAddress());
-    	System.out.println("Mac Address "+macDetails.getMac_Address());
-    	System.out.println("Command "+macDetails.getCommand());
-    	System.out.println("Make "+macDetails.getIpDetails().getModel());
-    	return this.success(this.macDetailsService.getMACDetails(macDetails));
+    	if(macDetails.getCisco10MacDetails()==null && macDetails.getCasaMacDetails()==null){
+    		throw new NoRecordsFoundException("No Records Found");
+    	}
+    	return this.success(macDetails);
     }
 
     @RequestMapping(value = "",
