@@ -16,11 +16,9 @@
 
 			<form class="form-horizontal">
 				<div class="form-group">
-					<label class="control-label col-sm-2" for="content">Mac
-						Address :</label>
+					<label class="control-label col-sm-2" for="content">Mac Address :</label>
 					<div class="col-sm-4">
-						<input ng-model="macDetail.mac_Address" id="macAddress"
-							class="form-control" />
+						<input ng-model="macDetail.mac_Address" id="macAddress" class="form-control" ng-disabled="disableTextBox"/>
 					</div>
                     
 					<label class="control-label col-sm-2" for="content">Ip
@@ -33,8 +31,7 @@
 				</div>              
 				<div class="form-group">
 					<div class="col-sm-2 col-sm-offset-1">
-						<button type="submit" class="btn btn-primary"
-							ng-click="getMacDetails()">
+						<button type="submit" class="btn btn-primary" ng-click="getMacDetails()" ng-disabled="disableTextBox">
 							<span class="glyphicon glyphicon-hand-up"></span> MacDetails
 						</button>
 					</div>
@@ -46,7 +43,7 @@
 					</div>
                     <div class="col-sm-2 col-sm-offset-1">
 						<button type="submit" class="btn btn-success"
-							ng-click="getMacDetails()">
+							ng-click="clearMacDetails()">
 							<span class="glyphicon glyphicon-trash"></span> Clear
 						</button>
 					</div>

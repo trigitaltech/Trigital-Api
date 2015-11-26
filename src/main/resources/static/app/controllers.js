@@ -4,7 +4,7 @@
     $scope.cmtsips = Item.query(function() {});
       
     $scope.tableShow = false;
-      
+    $scope.disableTextBox = false;
 	$scope.macDetail = new Item();
      
     $scope.getMacDetails = function(){
@@ -14,6 +14,10 @@
            alert('Data Processing');
         }).then(function(res){
             $scope.tableShow = true;
+            $scope.disableTextBox = true;
+            console.log($scope.disableTextBox);
+            console.log($scope.tableShow);
+            
         }).catch(function(data,status){
              $scope.messages = data;
              $scope.status = status;
@@ -30,7 +34,11 @@
     };
       
     $scope.clearMacDetails = function(){
-    	$scope.macDetail = null;
+    	$scope.macDetail = new Item();
+    	$scope.tableShow = false;
+    	$scope.disableTextBox = false;
+    	$scope.disableTextBox = false;
+    	alert('Successfully Cleared');
     	
     };
     
