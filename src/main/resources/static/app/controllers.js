@@ -11,7 +11,7 @@
         $scope.messages=null;
     	$scope.macDetail.command = "ALL";
     	$scope.macDetail.$save(function(){
-           alert('Data Processing');
+           
         }).then(function(res){
             $scope.tableShow = true;
             $scope.disableTextBox = true;
