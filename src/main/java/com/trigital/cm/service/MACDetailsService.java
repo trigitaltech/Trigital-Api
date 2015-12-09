@@ -155,23 +155,33 @@ public class MACDetailsService {
 	// Default Telnet Command
 	public DefaultTelnetMACDetails executeTelnetDefaultMacDetails(
 			String macAddress) {
-
-		executeCommandDefault = "shcm " + macAddress;
-		System.out.println(executeCommandDefault);
-
-		String result = tce.executeTelnetCommand(executeCommandDefault);
 		
-		if(result != null){
+		try {
 			
-			defaultCommandResults = result.split("\n")[3].split("\\s+");
+			executeCommandDefault = "shcm " + macAddress;
+			System.out.println(executeCommandDefault);
+
+			String result = tce.executeTelnetCommand(executeCommandDefault);
 			
-			defaultTelnetMACDetails = new DefaultTelnetMACDetails(
-					defaultCommandResults[0], defaultCommandResults[1],
-					defaultCommandResults[2], defaultCommandResults[3],
-					defaultCommandResults[4], defaultCommandResults[5],
-					defaultCommandResults[6], defaultCommandResults[7],
-					defaultCommandResults[8], defaultCommandResults[9]);
+			if(result != null){
+				
+				defaultCommandResults = result.split("\n")[3].split("\\s+");
+				
+				defaultTelnetMACDetails = new DefaultTelnetMACDetails(
+						defaultCommandResults[0], defaultCommandResults[1],
+						defaultCommandResults[2], defaultCommandResults[3],
+						defaultCommandResults[4], defaultCommandResults[5],
+						defaultCommandResults[6], defaultCommandResults[7],
+						defaultCommandResults[8], defaultCommandResults[9]);
+			}
+			
+		} catch (Exception e) {
+			
+			
+			
 		}
+
+		
 		
 
 		
