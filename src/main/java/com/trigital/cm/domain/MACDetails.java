@@ -1,49 +1,47 @@
 package com.trigital.cm.domain;
 
+import java.util.List;
+
 public class MACDetails {
 
 	private String mac_Address;
-	private String ip_Address;
-	private String i_f;
-	private String mac_state;
-	private String prim_Sid;
-	private String rxpwr;
-	private String timing_Offset;
-	private String num_CPE;
-	private String DIP;
+	private IPDetails ipDetails;
+	private String command;
+	private Cisco10MacDetails cisco10MacDetails;
+	private CasaMacDetails casaMacDetails;
+
+	/*
+	 * private DefaultMACDetails defaultMACDetails; private CPEMacDetails
+	 * cpeMacDetails; private PHYMacDetails phyMacDetails; private
+	 * List<QOSMacDetails> listofQosMacDetails; private WidebandMacDetails
+	 * widebandMacDetails; private CountersMacDetails countersMacDetails;
+	 * 
+	 * private DefaultTelnetMACDetails defaultTelnetMACDetails; private
+	 * CPETelnetMacDetails cpeTelnetMacDetails; private PHYTelnetMacDetails
+	 * phyTelnetMacDetails; private List<QOSMacDetails>
+	 * listofTelnetQosMacDetails; //private WidebandMacDetails
+	 * widebandMacDetails; private CountersMacDetails countersTelnetMacDetails;
+	 */
 
 	public MACDetails() {
 
 	}
 
-	public MACDetails(String mac_Address, String ip_Address, String i_f,
-			String mac, String prim_RxPwr_Sid, String timing_Offset,
-			String num_CPE, String dIP, String rxpwr) {
+	public MACDetails(String mac_Address, IPDetails ipDetails, String command,
+			Cisco10MacDetails cisco10MacDetails, CasaMacDetails casaMacDetails) {
+		super();
 		this.mac_Address = mac_Address;
-		this.ip_Address = ip_Address;
-		this.i_f = i_f;
-		this.mac_state = mac;
-		this.prim_Sid = prim_RxPwr_Sid;
-		this.timing_Offset = timing_Offset;
-		this.num_CPE = num_CPE;
-		this.rxpwr = rxpwr;
-		this.DIP = dIP;
+		this.ipDetails = ipDetails;
+		this.command = command;
+		this.cisco10MacDetails = cisco10MacDetails;
+		this.casaMacDetails = casaMacDetails;
 	}
 
-	public String getPrim_Sid() {
-		return prim_Sid;
-	}
-
-	public void setPrim_Sid(String prim_Sid) {
-		this.prim_Sid = prim_Sid;
-	}
-
-	public String getRxpwr() {
-		return rxpwr;
-	}
-
-	public void setRxpwr(String rxpwr) {
-		this.rxpwr = rxpwr;
+	public MACDetails(String mac_Address, IPDetails ipDetails, String command) {
+		super();
+		this.mac_Address = mac_Address;
+		this.ipDetails = ipDetails;
+		this.command = command;
 	}
 
 	public String getMac_Address() {
@@ -54,52 +52,150 @@ public class MACDetails {
 		this.mac_Address = mac_Address;
 	}
 
-	public String getIp_Address() {
-		return ip_Address;
+	public IPDetails getIpDetails() {
+		return ipDetails;
 	}
 
-	public void setIp_Address(String ip_Address) {
-		this.ip_Address = ip_Address;
+	public void setIpDetails(IPDetails ipDetails) {
+		this.ipDetails = ipDetails;
 	}
 
-	public String getI_f() {
-		return i_f;
+	public String getCommand() {
+		return command;
 	}
 
-	public void setI_f(String i_f) {
-		this.i_f = i_f;
+	public void setCommand(String command) {
+		this.command = command;
 	}
 
-	public String getMac_state() {
-		return mac_state;
+	public Cisco10MacDetails getCisco10MacDetails() {
+		return cisco10MacDetails;
 	}
 
-	public void setMac_state(String mac) {
-		this.mac_state = mac;
+	public void setCisco10MacDetails(Cisco10MacDetails cisco10MacDetails) {
+		this.cisco10MacDetails = cisco10MacDetails;
 	}
 
-	public String getTiming_Offset() {
-		return timing_Offset;
+	public CasaMacDetails getCasaMacDetails() {
+		return casaMacDetails;
 	}
 
-	public void setTiming_Offset(String timing_Offset) {
-		this.timing_Offset = timing_Offset;
+	public void setCasaMacDetails(CasaMacDetails casaMacDetails) {
+		this.casaMacDetails = casaMacDetails;
 	}
+	
+	
 
-	public String getNum_CPE() {
-		return num_CPE;
-	}
-
-	public void setNum_CPE(String num_CPE) {
-		this.num_CPE = num_CPE;
-	}
-
-	public String getDIP() {
-		return DIP;
-	}
-
-	public void setDIP(String dIP) {
-		DIP = dIP;
-	}
+	/*
+	 * public MACDetails(String mac_Address, IPDetails ipDetails, String
+	 * command) { super(); this.mac_Address = mac_Address; this.ipDetails =
+	 * ipDetails; this.command = command; }
+	 * 
+	 * 
+	 * 
+	 * public MACDetails(DefaultMACDetails defaultMACDetails, CPEMacDetails
+	 * cpeMacDetails, PHYMacDetails phyMacDetails, List<QOSMacDetails>
+	 * listofQosMacDetails, WidebandMacDetails widebandMacDetails,
+	 * CountersMacDetails countersMacDetails) { super(); this.defaultMACDetails
+	 * = defaultMACDetails; this.cpeMacDetails = cpeMacDetails;
+	 * this.phyMacDetails = phyMacDetails; this.listofQosMacDetails =
+	 * listofQosMacDetails; this.widebandMacDetails = widebandMacDetails;
+	 * this.countersMacDetails = countersMacDetails; }
+	 * 
+	 * public String getMac_Address() { return mac_Address; }
+	 * 
+	 * public void setMac_Address(String mac_Address) { this.mac_Address =
+	 * mac_Address; }
+	 * 
+	 * 
+	 * public IPDetails getIpDetails() { return ipDetails; }
+	 * 
+	 * 
+	 * public void setIpDetails(IPDetails ipDetails) { this.ipDetails =
+	 * ipDetails; }
+	 * 
+	 * 
+	 * 
+	 * public String getCommand() { return command; }
+	 * 
+	 * public void setCommand(String command) { this.command = command; }
+	 * 
+	 * public DefaultMACDetails getDefaultMACDetails() { return
+	 * defaultMACDetails; }
+	 * 
+	 * public void setDefaultMACDetails(DefaultMACDetails defaultMACDetails) {
+	 * this.defaultMACDetails = defaultMACDetails; }
+	 * 
+	 * public CPEMacDetails getCpeMacDetails() { return cpeMacDetails; }
+	 * 
+	 * public void setCpeMacDetails(CPEMacDetails cpeMacDetails) {
+	 * this.cpeMacDetails = cpeMacDetails; }
+	 * 
+	 * public PHYMacDetails getPhyMacDetails() { return phyMacDetails; }
+	 * 
+	 * public void setPhyMacDetails(PHYMacDetails phyMacDetails) {
+	 * this.phyMacDetails = phyMacDetails; }
+	 * 
+	 * public List<QOSMacDetails> getListofQosMacDetails() { return
+	 * listofQosMacDetails; }
+	 * 
+	 * public void setListofQosMacDetails(List<QOSMacDetails>
+	 * listofQosMacDetails) { this.listofQosMacDetails = listofQosMacDetails; }
+	 * 
+	 * public WidebandMacDetails getWidebandMacDetails() { return
+	 * widebandMacDetails; }
+	 * 
+	 * public void setWidebandMacDetails(WidebandMacDetails widebandMacDetails)
+	 * { this.widebandMacDetails = widebandMacDetails; }
+	 * 
+	 * public CountersMacDetails getCountersMacDetails() { return
+	 * countersMacDetails; }
+	 * 
+	 * public void setCountersMacDetails(CountersMacDetails countersMacDetails)
+	 * { this.countersMacDetails = countersMacDetails; }
+	 * 
+	 * 
+	 * public DefaultTelnetMACDetails getDefaultTelnetMACDetails() { return
+	 * defaultTelnetMACDetails; }
+	 * 
+	 * 
+	 * public void setDefaultTelnetMACDetails( DefaultTelnetMACDetails
+	 * defaultTelnetMACDetails) { this.defaultTelnetMACDetails =
+	 * defaultTelnetMACDetails; }
+	 * 
+	 * 
+	 * public CPETelnetMacDetails getCpeTelnetMacDetails() { return
+	 * cpeTelnetMacDetails; }
+	 * 
+	 * 
+	 * public void setCpeTelnetMacDetails(CPETelnetMacDetails
+	 * cpeTelnetMacDetails) { this.cpeTelnetMacDetails = cpeTelnetMacDetails; }
+	 * 
+	 * 
+	 * public PHYTelnetMacDetails getPhyTelnetMacDetails() { return
+	 * phyTelnetMacDetails; }
+	 * 
+	 * 
+	 * public void setPhyTelnetMacDetails(PHYTelnetMacDetails
+	 * phyTelnetMacDetails) { this.phyTelnetMacDetails = phyTelnetMacDetails; }
+	 * 
+	 * 
+	 * public List<QOSMacDetails> getListofTelnetQosMacDetails() { return
+	 * listofTelnetQosMacDetails; }
+	 * 
+	 * 
+	 * public void setListofTelnetQosMacDetails( List<QOSMacDetails>
+	 * listofTelnetQosMacDetails) { this.listofTelnetQosMacDetails =
+	 * listofTelnetQosMacDetails; }
+	 * 
+	 * 
+	 * public CountersMacDetails getCountersTelnetMacDetails() { return
+	 * countersTelnetMacDetails; }
+	 * 
+	 * 
+	 * public void setCountersTelnetMacDetails( CountersMacDetails
+	 * countersTelnetMacDetails) { this.countersTelnetMacDetails =
+	 * countersTelnetMacDetails; }
+	 */
 
 }

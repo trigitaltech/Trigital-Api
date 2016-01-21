@@ -16,31 +16,42 @@
 
 			<form class="form-horizontal">
 				<div class="form-group">
-					<label class="control-label col-sm-2" for="content">Mac
-						Address :</label>
-					<div class="col-sm-10">
-						<input ng-model="macDetail.mac_Address" id="macAddress"
-							class="form-control" />
+					<label class="control-label col-sm-2" for="content">Mac Address :</label>
+					<div class="col-sm-4">
+						<input ng-model="macDetail.mac_Address" id="macAddress" class="form-control" ng-disabled="disableTextBox"/>
 					</div>
-				</div>
-				<div class="form-group">
+                    
 					<label class="control-label col-sm-2" for="content">Ip
 						Address :</label>
-					<div class="col-sm-10">
-						<input ng-model="macDetail.ip_Address" id="ipAddress"
-							class="form-control" />
+					<div class="col-sm-4">
+						<select ng-model="macDetail.ipDetails" ng-options="cmtsip.name for cmtsip in cmtsips" class="form-control">
+                                <option value="">Select CMTS</option>
+                        </select>
 					</div>
 				</div>              
 				<div class="form-group">
-					<div class="col-sm-10 col-sm-offset-2">
-						<button type="submit" class="btn btn-primary"
+					<div class="col-sm-2 col-sm-offset-1">
+						<button type="submit" class="btn btn-primary" ng-click="getMacDetails()" ng-disabled="disableTextBox">
+							<span class="glyphicon glyphicon-hand-up"></span> MacDetails
+						</button>
+					</div>
+                    <div class="col-sm-3 col-sm-offset-1">
+						<button type="submit" class="btn btn-danger"
 							ng-click="getMacDetails()">
-							<span class="glyphicon glyphicon-ok"></span> Get MacDetails
+							<span class="glyphicon glyphicon-refresh"></span> Reset
+						</button>
+					</div>
+                    <div class="col-sm-2 col-sm-offset-1">
+						<button type="submit" class="btn btn-success"
+							ng-click="clearMacDetails()">
+							<span class="glyphicon glyphicon-trash"></span> Clear
 						</button>
 					</div>
 				</div>
                 
-                                <div class="form-group">
+            
+                
+                <!--  div class="form-group" >
 					<table class="table table-condensed">
                         <thead>
                             <tr>
@@ -53,19 +64,481 @@
                                   <th class="info">Timing Offset</th>
                                   <th class="info">Num CPE</th>
                                   <th class="info">DIP</th>
+                                  <th class="info">Make</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                  <td class="info">{{macDetail.mac_Address}}</td>
-                                  <td class="info">{{macDetail.ip_Address}}</td>
-                                  <td class="info">{{macDetail.i_f}}</td>
-                                  <td class="info">{{macDetail.mac_state}}</td>
-                                  <td class="info">{{macDetail.prim_Sid}}</td>
-                                  <td class="info">{{macDetail.rxpwr}}</td>
-                                  <td class="info">{{macDetail.timing_Offset}}</td>
-                                  <td class="info">{{macDetail.num_CPE}}</td>
-                                  <td class="info">{{macDetail.dip}}</td>
+                                  <td class="info">{{macDetail.cisco10MacDetails.defaultMACDetails.mac_Address}}</td>
+                                  <td class="info">{{macDetail.cisco10MacDetails.ipDetails.ip_Address}}</td>
+                                  <td class="info">{{macDetail.cisco10MacDetails.defaultMACDetails.i_f}}</td>
+                                  <td class="info">{{macDetail.cisco10MacDetails.defaultMACDetails.mac_state}}</td>
+                                  <td class="info">{{macDetail.cisco10MacDetails.defaultMACDetails.prim_Sid}}</td>
+                                  <td class="info">{{macDetail.cisco10MacDetails.defaultMACDetails.rxpwr}}</td>
+                                  <td class="info">{{macDetail.cisco10MacDetails.defaultMACDetails.timing_Offset}}</td>
+                                  <td class="info">{{macDetail.cisco10MacDetails.defaultMACDetails.num_CPE}}</td>
+                                  <td class="info">{{macDetail.cisco10MacDetails.defaultMACDetails.dip}}</td>
+                                  <td class="info">{{macDetail.cisco10MacDetails.cmts_make}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+				</div-->
+				
+				 <div class="form-group" ng-show="tableShow === false && messages === null && macDetail === null">
+				 		{{messages}}
+				 </div>
+				
+				
+				 <div class="form-group" ng-show="tableShow && messages === null">
+					<table class="table table-condensed">
+                        <thead>
+                        	<tr ng-show="tableShow && macDetail.cisco10MacDetails === null && tableShow && macDetail.casaMacDetails === null">
+                        		<td class="info" colspan="4">No Records found</td>
+                        	</tr>
+                            <tr ng-show="tableShow && macDetail.cisco10MacDetails != null || tableShow && macDetail.casaMacDetails != null">
+                                  <th class="info"></th>
+                                  <th class="info">Mac Address</th>
+								  <th class="info"></th>
+								  <th class="info"></th>
+                            </tr>
+                        </thead>
+                        <tbody ng-show="tableShow && macDetail.cisco10MacDetails != null ">
+                            <tr>
+                                  <td class="info" rowspan="12">Default MacDetails</td>
+                                  <td class="info">Mac Address</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.defaultMACDetails.mac_Address}}</td>
+                            </tr>
+                           <tr>
+                           		 <td class="info">IP Address</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.defaultMACDetails.ip_Address}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">IF</td>
+                                  <td class="info"colspan="2">{{macDetail.cisco10MacDetails.defaultMACDetails.i_f}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Mac State</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.cisco10MacDetails.defaultMACDetails.mac_state}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">PRIM_SID</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.defaultMACDetails.prim_Sid}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">RXPWR</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.defaultMACDetails.rxpwr}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Timing Offset</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.defaultMACDetails.timing_Offset}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Num_CPE</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.defaultMACDetails.num_CPE}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">CMTS Make</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.defaultMACDetails.cmts_make}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Command</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.defaultMACDetails.command}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Flag</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.defaultMACDetails.flag}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Dip</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.defaultMACDetails.dip}}</td>
+                            </tr>
+                        </tbody>
+                        
+                        <tbody ng-show="tableShow && macDetail.cisco10MacDetails.cpeMacDetails != null ">
+                            <tr>
+                                  <td class="info" rowspan="4">CPE MacDetails</td>
+                                  <td class="info">CPE Mac Address</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.cpeMacDetails.mac_Address}}</td>
+                            </tr>
+                           <tr>
+                           		 <td class="info">CPE IP Address</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.cpeMacDetails.ip_Address}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Dual IP Address</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.cpeMacDetails.dual_ip}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Device Class</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.cpeMacDetails.device_Class}}</td>
+                            </tr>
+                        </tbody>
+                        
+                        <tbody ng-show="tableShow && macDetail.cisco10MacDetails.phyMacDetails != null ">
+                            <tr>
+                                  <td class="info" rowspan="10">PHY MacDetails</td>
+                                  <td class="info">PHY Mac Address</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.phyMacDetails.mac_Address}}</td>
+                            </tr>
+                           <tr>
+                           		 <td class="info">SID</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.phyMacDetails.sid}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">USPWR</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.phyMacDetails.uspwr}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">URMER</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.phyMacDetails.usmer}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Timing offset</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.phyMacDetails.timing_offset}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">DSPWR</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.phyMacDetails.dspwr}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">DSMER</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.phyMacDetails.dsmer}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Mode</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.phyMacDetails.mode}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Docsis</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.phyMacDetails.docsis}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">IF</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.phyMacDetails.i_F}}</td>
+                            </tr>
+                        </tbody>
+                        
+                        <tbody ng-show="tableShow && macDetail.cisco10MacDetails != null">
+                            <tr>
+                                  <td class="info" rowspan="10">QOS MacDetails</td>
+                                  <td class="info">SFID</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listOfQOSMacDetails[0].sfid}}</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listOfQOSMacDetails[1].sfid}}</td>
+                            </tr>
+                           <tr>
+                           		  <td class="info">DIR</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listOfQOSMacDetails[0].dir}}</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listOfQOSMacDetails[1].dir}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Current State</td>
+                                   <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listOfQOSMacDetails[0].current_State}}</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listOfQOSMacDetails[1].current_State}}</td>
+                            </tr>
+                             <tr>
+                            	  <td class="info">SID</td>
+                                   <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listOfQOSMacDetails[0].sid}}</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listOfQOSMacDetails[1].sid}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Sched Type</td>
+                                   <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listOfQOSMacDetails[0].sched_Type}}</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listOfQOSMacDetails[1].sched_Type}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Prio</td>
+                                   <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listOfQOSMacDetails[0].prio}}</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listOfQOSMacDetails[1].prio}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Max Sus Rate</td>
+                                   <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listOfQOSMacDetails[0].max_Sus_Rate}}</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listOfQOSMacDetails[1].max_Sus_Rate}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Max BRST</td>
+                                   <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listOfQOSMacDetails[0].max_Brst}}</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listOfQOSMacDetails[1].max_Brst}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Min Rsv Rate</td>
+                                   <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listOfQOSMacDetails[0].min_Rsv_Rate}}</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listOfQOSMacDetails[1].min_Rsv_Rate}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Through Put</td>
+                                   <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listOfQOSMacDetails[0].through_put}}</td>
+                                  <td class="info" colspan="1">{{macDetail.cisco10MacDetails.listOfQOSMacDetails[1].through_put}}</td>
+                            </tr>
+                        </tbody>
+                        
+                        <tbody ng-show="tableShow && macDetail.cisco10MacDetails.widebandMacDetails != null">
+                            <tr>
+                                  <td class="info" rowspan="6">Wideband MacDetails</td>
+                                  <td class="info">Wideband Mac Address</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.widebandMacDetails.mac_Address}}</td>
+                            </tr>
+                           <tr>
+                           		 <td class="info">IP Address</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.widebandMacDetails.ip_Address}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Mac State</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.widebandMacDetails.mac_State}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">DSXUS</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.widebandMacDetails.dSxUS}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Primary WB</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.widebandMacDetails.primary_wb}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">IF</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.widebandMacDetails.i_F}}</td>
+                            </tr>
+                        </tbody>
+                        
+                        <tbody ng-show="tableShow && macDetail.cisco10MacDetails.countersMacDetails != null">
+                            <tr>
+                                  <td class="info" rowspan="5">Counters MacDetails</td>
+                                  <td class="info">Counters Mac Address</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.countersMacDetails.mac_Address}}</td>
+                            </tr>
+                           <tr>
+                           		 <td class="info">US Packets</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.countersMacDetails.us_packets}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">US Bytes</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.countersMacDetails.us_bytes}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">DS Packets</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.countersMacDetails.ds_packets}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">DS Bytes</td>
+                                  <td class="info" colspan="2">{{macDetail.cisco10MacDetails.countersMacDetails.ds_bytes}}</td>
+                            </tr>
+                        </tbody>
+                        
+                        <tbody ng-show="tableShow && macDetail.casaMacDetails != null ">
+                            <tr>
+                                  <td class="info" rowspan="10">Default Telnet MacDetails</td>
+                                  <td class="info">Mac Address</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.defaultTelnetMACDetails.mac_Address}}</td>
+                            </tr>
+                           <tr>
+                           		 <td class="info">IP Address</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.defaultTelnetMACDetails.ip_Address}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">US INTF</td>
+                                  <td class="info"colspan="2">{{macDetail.casaMacDetails.defaultTelnetMACDetails.us_intf}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">DS INTF</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.defaultTelnetMACDetails.ds_intf}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">MAC STATUS</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.defaultTelnetMACDetails.mac_status}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">PRIM SID</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.defaultTelnetMACDetails.prim_Sid}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">RXPWR</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.defaultTelnetMACDetails.rxpwr}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">TIMMING OFFSET</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.defaultTelnetMACDetails.timing_Offset}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">NUM CPE</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.defaultTelnetMACDetails.num_CPE}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">BPI ENB</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.defaultTelnetMACDetails.bpi_enb}}</td>
+                            </tr>
+                        </tbody>
+                        
+                        <tbody ng-show="tableShow && macDetail.casaMacDetails.cpeTelnetMacDetails != null">
+                            <tr>
+                                  <td class="info" rowspan="5">CPE MacDetails</td>
+                                  <td class="info">CPE IP ADDRESS</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.cpeTelnetMacDetails.cpe_ip_Address}}</td>
+                            </tr>
+                           <tr>
+                           		 <td class="info">METHOD</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.cpeTelnetMacDetails.method}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">CPE MAC Address</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.cpeTelnetMacDetails.cpe_mac_Address}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">CM IPADDRESS</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.cpeTelnetMacDetails.cm_ip_Address}}</td>
+                            </tr>
+                             <tr>
+                            	  <td class="info">CM MAC ADDRESS</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.cpeTelnetMacDetails.cm_mac_Address}}</td>
+                            </tr>
+                        </tbody>
+                        
+                        <tbody ng-show="tableShow && macDetail.casaMacDetails.phyTelnetMacDetails != null">
+                            <tr>
+                                  <td class="info" rowspan="10">PHY MacDetails</td>
+                                  <td class="info">PHY Mac Address</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.phyTelnetMacDetails.mac_Address}}</td>
+                            </tr>
+                           <tr>
+                           		 <td class="info">US IF</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.phyTelnetMacDetails.us_if}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">DS IF</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.phyTelnetMacDetails.ds_if}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">SID</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.phyTelnetMacDetails.sid}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">USPWR</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.phyTelnetMacDetails.uspwr}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">USSNR</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.phyTelnetMacDetails.ussnr}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">MICRO REFLECT</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.phyTelnetMacDetails.microReflec}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">DSPWR</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.phyTelnetMacDetails.dspwr}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">DSSNR</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.phyTelnetMacDetails.dssnr}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">MODE</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.phyTelnetMacDetails.mode}}</td>
+                            </tr>
+                        </tbody>
+                        
+                        <tbody ng-show="tableShow && macDetail.casaMacDetails != null">
+                            <tr>
+                                  <td class="info" rowspan="10">QOS MacDetails</td>
+                                  <td class="info">SFID</td>
+                                  <td class="info" colspan="1">{{macDetail.casaMacDetails.listOfQOSTelnetMacDetails[0].sfid}}</td>
+                                  <td class="info" colspan="1">{{macDetail.casaMacDetails.listOfQOSTelnetMacDetails[1].sfid}}</td>
+                            </tr>
+                           <tr>
+                           		  <td class="info">DIR</td>
+                                  <td class="info" colspan="1">{{macDetail.casaMacDetails.listOfQOSTelnetMacDetails[0].dir}}</td>
+                                  <td class="info" colspan="1">{{macDetail.casaMacDetails.listOfQOSTelnetMacDetails[1].dir}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Current State</td>
+                                   <td class="info" colspan="1">{{macDetail.casaMacDetails.listOfQOSTelnetMacDetails[0].current_State}}</td>
+                                  <td class="info" colspan="1">{{macDetail.casaMacDetails.listOfQOSTelnetMacDetails[1].current_State}}</td>
+                            </tr>
+                             <tr>
+                            	  <td class="info">SID</td>
+                                   <td class="info" colspan="1">{{macDetail.casaMacDetails.listOfQOSTelnetMacDetails[0].sid}}</td>
+                                  <td class="info" colspan="1">{{macDetail.casaMacDetails.listOfQOSTelnetMacDetails[1].sid}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Sched Type</td>
+                                   <td class="info" colspan="1">{{macDetail.casaMacDetails.listOfQOSTelnetMacDetails[0].sched_Type}}</td>
+                                  <td class="info" colspan="1">{{macDetail.casaMacDetails.listOfQOSTelnetMacDetails[1].sched_Type}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Prio</td>
+                                   <td class="info" colspan="1">{{macDetail.casaMacDetails.listOfQOSTelnetMacDetails[0].prio}}</td>
+                                  <td class="info" colspan="1">{{macDetail.casaMacDetails.listOfQOSTelnetMacDetails[1].prio}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Max Sus Rate</td>
+                                   <td class="info" colspan="1">{{macDetail.casaMacDetails.listOfQOSTelnetMacDetails[0].max_Sus_Rate}}</td>
+                                  <td class="info" colspan="1">{{macDetail.casaMacDetails.listOfQOSTelnetMacDetails[1].max_Sus_Rate}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Max BRST</td>
+                                   <td class="info" colspan="1">{{macDetail.casaMacDetails.listOfQOSTelnetMacDetails[0].max_Brst}}</td>
+                                  <td class="info" colspan="1">{{macDetail.casaMacDetails.listOfQOSTelnetMacDetails[1].max_Brst}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Min Rsv Rate</td>
+                                   <td class="info" colspan="1">{{macDetail.casaMacDetails.listOfQOSTelnetMacDetails[0].min_Rsv_Rate}}</td>
+                                  <td class="info" colspan="1">{{macDetail.casaMacDetails.listOfQOSTelnetMacDetails[1].min_Rsv_Rate}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Through Put</td>
+                                   <td class="info" colspan="1">{{macDetail.casaMacDetails.listOfQOSTelnetMacDetails[0].through_put}}</td>
+                                  <td class="info" colspan="1">{{macDetail.casaMacDetails.listOfQOSTelnetMacDetails[1].through_put}}</td>
+                            </tr>
+                        </tbody>
+                        
+                        <!--tbody>
+                            <tr>
+                                  <td class="info" rowspan="6">Wideband MacDetails</td>
+                                  <td class="info">Wideband Mac Address</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.widebandMacDetails.mac_Address}}</td>
+                            </tr>
+                           <tr>
+                           		 <td class="info">IP Address</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.widebandMacDetails.ip_Address}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Mac State</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.widebandMacDetails.mac_State}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">DSXUS</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.widebandMacDetails.dSxUS}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">Primary WB</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.widebandMacDetails.primary_wb}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">IF</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.widebandMacDetails.i_F}}</td>
+                            </tr>
+                        </tbody-->
+                        
+                        <tbody ng-show="tableShow && macDetail.casaMacDetails.countersTelnetMacDetails != null">
+                            <tr>
+                                  <td class="info" rowspan="5">Counters MacDetails</td>
+                                  <td class="info">Counters Mac Address</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.countersTelnetMacDetails.mac_Address}}</td>
+                            </tr>
+                           <tr>
+                           		 <td class="info">US Packets</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.countersTelnetMacDetails.us_packets}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">US Bytes</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.countersTelnetMacDetails.us_bytes}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">DS Packets</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.countersTelnetMacDetails.ds_packets}}</td>
+                            </tr>
+                            <tr>
+                            	  <td class="info">DS Bytes</td>
+                                  <td class="info" colspan="2">{{macDetail.casaMacDetails.countersTelnetMacDetails.ds_bytes}}</td>
                             </tr>
                         </tbody>
                     </table>
